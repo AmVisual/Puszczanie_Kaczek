@@ -1,31 +1,51 @@
 package po.matmac;
 
+import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
 public class WindowFrame extends JFrame {
-
+	
+	public void setWindowFrame() {
+		//this function sets how the window looks like
+		
+		this.setSize(1000,650);
+		this.setLayout(new BorderLayout());
+		//top panel
+		TopPanel topPanel = new TopPanel();
+		//right panel
+		RightPanel rightPanel = new RightPanel();
+		//center panel
+		CenterPanel centerPanel = new CenterPanel();
+		//add panels
+		this.add(topPanel, BorderLayout.NORTH);
+		this.add(rightPanel, BorderLayout.EAST);
+		this.add(topPanel, BorderLayout.CENTER);
+	}
+	
 	public WindowFrame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(800,600);
-		this.setState(MAXIMIZED_BOTH);
+		this.setWindowFrame();
 	}
 
 	public WindowFrame(GraphicsConfiguration gc) {
 		super(gc);
-		// TODO Auto-generated constructor stub
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setWindowFrame();
 	}
 
 	public WindowFrame(String title) throws HeadlessException {
 		super(title);
-		// TODO Auto-generated constructor stub
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setWindowFrame();
 	}
 
 	public WindowFrame(String title, GraphicsConfiguration gc) {
 		super(title, gc);
-		// TODO Auto-generated constructor stub
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setWindowFrame();
 	}
 
 }
