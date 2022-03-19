@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 
 //class made by Maciej Standerski
 //right panel is responsible for inserting data
-public class RightPanel extends JPanel {
+public class DataPanel extends JPanel {
 
-	public RightPanel() {
+	public DataPanel() {
 		super();
 		JPanel container = new JPanel();
 		this.setLayout(new GridLayout(1,1));

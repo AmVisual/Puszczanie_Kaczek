@@ -13,16 +13,16 @@ public class WindowFrame extends JFrame {
 		
 		this.setSize(1000,650);
 		this.setLayout(new BorderLayout());
-		//top panel
-		TopPanel topPanel = new TopPanel();
-		//right panel
-		RightPanel rightPanel = new RightPanel();
-		//center panel
-		CenterPanel centerPanel = new CenterPanel();
+		//top panel - score panel
+		ScorePanel ScorePanel = new ScorePanel();
+		//right panel - data panel
+		DataPanel DataPanel = new DataPanel();
+		//center panel - animation panel
+		AnimationPanel AnimationPanel = new AnimationPanel();
 		//add panels
-		this.add(topPanel, BorderLayout.NORTH);
-		this.add(rightPanel, BorderLayout.EAST);
-		this.add(topPanel, BorderLayout.CENTER);
+		this.add(ScorePanel, BorderLayout.NORTH);
+		this.add(DataPanel, BorderLayout.EAST);
+		this.add(ScorePanel, BorderLayout.CENTER);
 	}
 	
 	public WindowFrame() throws HeadlessException {

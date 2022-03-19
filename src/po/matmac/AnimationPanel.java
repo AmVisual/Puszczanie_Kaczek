@@ -5,23 +5,23 @@ import java.awt.LayoutManager;
 import javax.swing.JPanel;
 
 //panel for the animation
-public class CenterPanel extends JPanel {
+public class AnimationPanel extends JPanel {
 
-	public CenterPanel() {
+	public AnimationPanel() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CenterPanel(LayoutManager layout) {
+	public AnimationPanel(LayoutManager layout) {
 		super(layout);
 		// TODO Auto-generated constructor stub
 	}
 
-	public CenterPanel(boolean isDoubleBuffered) {
+	public AnimationPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
 		// TODO Auto-generated constructor stub
 	}
 
-	public CenterPanel(LayoutManager layout, boolean isDoubleBuffered) {
+	public AnimationPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
 		// TODO Auto-generated constructor stub
 	}
