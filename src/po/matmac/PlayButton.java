@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+//class made by Maciej Standerski
+//play button which starts animation
 public class PlayButton extends JButton implements ActionListener {
 	
 	public PlayButton() {

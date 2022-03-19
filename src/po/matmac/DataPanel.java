@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 //right panel is responsible for inserting data
 public class DataPanel extends JPanel {
 
+	Stone stone; //stone object
+	
 	public DataPanel() {
 		super();
 		JPanel container = new JPanel();
@@ -60,6 +62,22 @@ public class DataPanel extends JPanel {
 		//play button
 		PlayButton playButton = new PlayButton();
 		container.add(playButton);
+		
+		//add stone object
+		double velocity = velocityField.getValue();
+		double throwAngle = throwAngleField.getValue();
+		double stoneAngle = stoneAngleField.getValue();
+		double mass = massField.getValue();
+		double height = heightField.getValue();
+		double coefficient = coefficientField.getValue();
+		this.stone = new Stone(velocity, throwAngle, stoneAngle, mass, height, coefficient);
 	}
+	
+	//getter for stone object
+	public Stone getStone() {
+		return stone;
+	}
+	
+	
 
 }
