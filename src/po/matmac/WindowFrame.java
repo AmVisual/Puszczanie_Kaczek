@@ -2,9 +2,13 @@ package po.matmac;
 
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class WindowFrame extends JFrame {
 	
@@ -13,16 +17,30 @@ public class WindowFrame extends JFrame {
 		
 		this.setSize(1000,650);
 		this.setLayout(new BorderLayout());
-		//top panel - score panel
+		//score panel
 		ScorePanel ScorePanel = new ScorePanel();
 		//right panel - data panel
 		DataPanel DataPanel = new DataPanel();
-		//center panel - animation panel
+		//animation panel
 		AnimationPanel AnimationPanel = new AnimationPanel();
-		//add panels
-		this.add(ScorePanel, BorderLayout.NORTH);
+		//center panel - contains score panel and animation panel
+		JPanel CenterPanel=new JPanel(new GridBagLayout());
+		//setting the GridBagLayout
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill=GridBagConstraints.BOTH;
+		c.weightx=0.5;
+		c.weighty=0.01;
+		c.gridx=0;
+		c.gridy=0;
+		CenterPanel.add(ScorePanel,c);
+		c.gridx=0;
+		c.gridy=1;
+		c.gridwidth=5;
+		c.weighty=1;
+		CenterPanel.add(AnimationPanel,c);
+		//adding panels
+		this.add(CenterPanel, BorderLayout.CENTER);
 		this.add(DataPanel, BorderLayout.EAST);
-		this.add(ScorePanel, BorderLayout.CENTER);
 	}
 	
 	public WindowFrame() throws HeadlessException {
