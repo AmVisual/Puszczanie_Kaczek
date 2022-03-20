@@ -16,7 +16,7 @@ public class WindowFrame extends JFrame {
 		//this function sets how the window looks like
 		
 		this.setSize(1000,650);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		//score panel
 		ScorePanel ScorePanel = new ScorePanel();
 		//right panel - data panel
@@ -39,8 +39,17 @@ public class WindowFrame extends JFrame {
 		c.weighty=1;
 		CenterPanel.add(AnimationPanel,c);
 		//adding panels
-		this.add(CenterPanel, BorderLayout.CENTER);
-		this.add(DataPanel, BorderLayout.EAST);
+		GridBagConstraints c2 = new GridBagConstraints();
+		c2.fill=GridBagConstraints.BOTH;
+		c2.weightx = 0.5;
+		c2.weighty = 0.5;
+		c2.gridx = 0;
+		c2.gridy = 0;
+		this.add(CenterPanel, c2);
+		c2.weightx = 0.2;
+		c2.gridx = 1;
+		c2.gridy = 0;
+		this.add(DataPanel, c2);
 	}
 	
 	public WindowFrame() throws HeadlessException {
