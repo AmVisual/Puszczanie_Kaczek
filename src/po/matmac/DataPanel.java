@@ -2,15 +2,25 @@ package po.matmac;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 //class made by Maciej Standerski
 //right panel is responsible for inserting data
-public class DataPanel extends JPanel {
+public class DataPanel extends JPanel implements ActionListener{
 
 	Stone stone; //stone object
+	
+	//fields
+	InsertValueField velocityField;
+	InsertValueField throwAngleField;
+	InsertValueField stoneAngleField;
+	InsertValueField massField;
+	InsertValueField heightField;
+	InsertValueField coefficientField;
 	
 	public DataPanel() {
 		super();
@@ -26,51 +36,43 @@ public class DataPanel extends JPanel {
 		//velocity
 		InsertValueLabel velocityLabel = new InsertValueLabel("Prêdkoœæ rzutu [m/s]");
 		container.add(velocityLabel);
-		InsertValueField velocityField = new InsertValueField(1.0, 50.0);
+		velocityField = new InsertValueField(1.0, 50.0);
 		container.add(velocityField);
 		
 		//throw angle
 		InsertValueLabel throwAngleLabel = new InsertValueLabel("K¹t rzutu (do osi OX) [o]");
 		container.add(throwAngleLabel);
-		InsertValueField throwAngleField = new InsertValueField(0.0, 85.0);
+		throwAngleField = new InsertValueField(0.0, 85.0);
 		container.add(throwAngleField);
 		
 		//stone angle - the angle between stone's surface and x axis
 		InsertValueLabel stoneAngleLabel = new InsertValueLabel("K¹t kamienia (do osi OX) [o]");
 		container.add(stoneAngleLabel);
-		InsertValueField stoneAngleField = new InsertValueField(0.0, 90.0);
+		stoneAngleField = new InsertValueField(0.0, 90.0);
 		container.add(stoneAngleField);
 		
 		//mass
 		InsertValueLabel massLabel = new InsertValueLabel("Masa kamienia [g]");
 		container.add(massLabel);
-		InsertValueField massField = new InsertValueField(10.0, 100.0);
+		massField = new InsertValueField(10.0, 100.0);
 		container.add(massField);
 		
 		//height
 		InsertValueLabel heightLabel = new InsertValueLabel("Wysokoœæ rzutu [m]");
 		container.add(heightLabel);
-		InsertValueField heightField = new InsertValueField(10.0, 150.0);
+		heightField = new InsertValueField(10.0, 150.0);
 		container.add(heightField);
 		
 		//drag coefficient
 		InsertValueLabel coefficientLabel = new InsertValueLabel("Wspó³czynnik oporu powietrza [kg/s]");
 		container.add(coefficientLabel);
-		InsertValueField coefficientField = new InsertValueField(0.2, 0.6);
+		coefficientField = new InsertValueField(0.2, 0.6);
 		container.add(coefficientField);
 		
 		//play button
 		PlayButton playButton = new PlayButton();
+		playButton.addActionListener(this);
 		container.add(playButton);
-		
-		//add stone object
-		double velocity = velocityField.getValue();
-		double throwAngle = throwAngleField.getValue();
-		double stoneAngle = stoneAngleField.getValue();
-		double mass = massField.getValue();
-		double height = heightField.getValue();
-		double coefficient = coefficientField.getValue();
-		this.stone = new Stone(velocity, throwAngle, stoneAngle, mass, height, coefficient);
 	}
 	
 	//getter for stone object
@@ -78,6 +80,24 @@ public class DataPanel extends JPanel {
 		return stone;
 	}
 	
-	
+	//action listener for play button
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		double velocity = velocityField.getValue();
+		double throwAngle = throwAngleField.getValue();
+		double stoneAngle = stoneAngleField.getValue();
+		double mass = massField.getValue();
+		double height = heightField.getValue();
+		double coefficient = coefficientField.getValue();
+		
+		this.stone = new Stone(velocity, throwAngle, stoneAngle, mass, height, coefficient);
+		
+		System.out.println("Velocity: " + this.stone.getVelocity());
+		System.out.println("Throw angle: " + this.stone.getThrowAngle());
+		System.out.println("Stone angle: " + this.stone.getStoneAngle());
+		System.out.println("Mass: " + this.stone.getMass());
+		System.out.println("Height: " + this.stone.getHeight());
+		System.out.println("Coefficient: " + this.stone.getCoefficient());
+	}
 
 }

@@ -25,4 +25,52 @@ public class Stone {
 		this.coefficient = coefficient;
 	}
 
+	public double getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(double velocity) {
+		this.velocity = velocity;
+	}
+
+	public double getThrowAngle() {
+		return throwAngle;
+	}
+
+	public void setThrowAngle(double throwAngle) {
+		this.throwAngle = throwAngle;
+	}
+
+	public double getStoneAngle() {
+		return stoneAngle;
+	}
+
+	public void setStoneAngle(double stoneAngle) {
+		this.stoneAngle = stoneAngle;
+	}
+
+	public double getMass() {
+		return mass;
+	}
+
+	public void setMass(double mass) {
+		this.mass = mass;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public double getCoefficient() {
+		return coefficient;
+	}
+
+	public void setCoefficient(double coefficient) {
+		this.coefficient = coefficient;
+	}
+
 }

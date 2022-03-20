@@ -14,9 +14,10 @@ public class PlayButton extends JButton implements ActionListener {
 	public PlayButton() {
 		super();
 		//settings
-		this.setText("Rzuæ!");
+		this.setText("RZUÆ!");
 		this.setFont(new Font("Calibri", Font.PLAIN, 28));
 		this.setBackground(Color.red);
+		this.setForeground(Color.white);
 		this.addActionListener(this);
 	}
 	
