@@ -30,9 +30,9 @@ public class ScorePanel extends JPanel{
 	ImageIcon icon1;
 	JButton button1=new JButton("Zapisz");
 	JButton button2=new JButton("Zapisz");
-	JButton button3=new JButton(icon1);
-	JButton button4=new JButton();
-	JButton button5=new JButton();
+	JButton button3;
+	JButton button4=new JButton("PL/EN");
+	JButton button5=new JButton("HISTORIA");
 	
 	
 	
@@ -55,30 +55,30 @@ public class ScorePanel extends JPanel{
 		c.gridy=0;
 		c.weightx=0.5;
 		c.weighty=0.5;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		panelLeft.add(label1,c);
 		//adding "Liczba odbiæ: n" label
 		c.gridx=1;
 		c.gridy=0;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		panelLeft.add(label2,c);
 		//adding "Zapisz" button
 		c.gridx=0;
 		c.gridy=1;
 		c.gridheight=2;
 		c.ipady=10;
-		c.insets=new Insets(0,15,0,15);
+		c.insets=new Insets(5,15,5,15);
 		button1.setBackground(Color.green);
 		button1.setForeground(Color.white);
-		button1.setFont(new Font("Calibri", Font.PLAIN,20));
+		button1.setFont(new Font("Calibri", Font.PLAIN,24));
 		panelLeft.add(button1,c);
 		//adding "Odleg³oœæ: s" label
 		c.gridx=1;
 		c.gridy=1;
 		c.gridheight=1;
 		c.ipady=0;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		panelLeft.add(label3,c);
 		//adding "Czas lotu: t" label
 		c.gridx=1;
@@ -95,20 +95,20 @@ public class ScorePanel extends JPanel{
 		c.gridy=0;
 		c.weightx=0.5;
 		c.weighty=0.5;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		label5.setHorizontalAlignment(JLabel.CENTER);
 		panelCenter.add(label5,c);
 		//adding "Liczba odbiæ: n" label
 		c.gridx=1;
 		c.gridy=0;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		panelCenter.add(label6,c);
 		//adding "Zapisz" button
 		c.gridx=0;
 		c.gridy=1;
 		c.gridheight=2;
 		c.ipady=10;
-		c.insets=new Insets(0,15,0,15);
+		c.insets=new Insets(5,15,5,15);
 		button2.setBackground(Color.green);
 		button2.setForeground(Color.white);
 		button2.setFont(new Font("Calibri", Font.PLAIN,24));
@@ -118,12 +118,12 @@ public class ScorePanel extends JPanel{
 		c.gridy=1;
 		c.gridheight=1;
 		c.ipady=0;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		panelCenter.add(label7,c);
 		//adding "Czas lotu: t" label
 		c.gridx=1;
 		c.gridy=2;
-		c.insets=new Insets(0,5,0,5);
+		c.insets=new Insets(5,5,5,5);
 		panelCenter.add(label8,c);
 		
 		
@@ -134,19 +134,24 @@ public class ScorePanel extends JPanel{
 		c.gridy=0;
 		c.weightx=0.5;
 		c.weighty=0.5;
-		c.insets=new Insets(5,10,5,10);
-		//próbujê ogarn¹æ resize ikon
-		/*ImageIcon icon1=new ImageIcon("workspace\\po\\sound.png");
-		Image tempImage1=icon1.getImage();
-		Image image1=tempImage1.getScaledInstance(50,50,java.awt.Image.SCALE_SMOOTH);
-		icon1=new ImageIcon(image1);*/
-		
+		c.insets=new Insets(20,10,20,10);
+		//adding music icon to button1
+		ImageIcon icon1=new ImageIcon("D:\\Maciek\\PO\\puszczanie_kaczek\\src\\po\\matmac\\images\\sound.png");
+		button3=new JButton(icon1);
+		button3.setBackground(Color.green);
 		panelRight.add(button3,c);
+		
 		c.gridx=1;
 		c.gridy=0;
+		button4.setBackground(Color.green);
+		button4.setForeground(Color.white);
+		button4.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button4,c);
 		c.gridx=2;
 		c.gridy=0;
+		button5.setBackground(Color.green);
+		button5.setForeground(Color.white);
+		button5.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button5,c);
 		
 	}
