@@ -5,8 +5,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 //top panel shows the best shot and the latest shot, as well as saves them in the chosen file
-public class ScorePanel extends JPanel{
+public class ScorePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	JPanel panelLeft=new JPanel();
 	JPanel panelCenter=new JPanel();
@@ -27,13 +31,14 @@ public class ScorePanel extends JPanel{
 	ScoreLabel label6=new ScoreLabel("Liczba odbiæ: n");
 	ScoreLabel label7=new ScoreLabel("Odleg³oœæ: s");
 	ScoreLabel label8=new ScoreLabel("Czas lotu: t");
-	ImageIcon icon1;
+	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
+	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
 	JButton button1=new JButton("Zapisz");
 	JButton button2=new JButton("Zapisz");
-	JButton button3;
+	JButton button3=new JButton(icon1);
 	JButton button4=new JButton("PL/EN");
 	JButton button5=new JButton("HISTORIA");
-	
+	int soundButtonMode=1;
 	
 	
 	
@@ -135,24 +140,38 @@ public class ScorePanel extends JPanel{
 		c.weightx=0.5;
 		c.weighty=0.5;
 		c.insets=new Insets(20,10,20,10);
-		//adding music icon to button1
-		ImageIcon icon1=new ImageIcon("D:\\Maciek\\PO\\puszczanie_kaczek\\src\\po\\matmac\\images\\sound.png");
-		button3=new JButton(icon1);
+		//adding music button
 		button3.setBackground(Color.green);
+		//ActionListener switches button icon
+		button3.addActionListener(this);
 		panelRight.add(button3,c);
-		
+		//adding language switch button
 		c.gridx=1;
 		c.gridy=0;
 		button4.setBackground(Color.green);
 		button4.setForeground(Color.white);
 		button4.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button4,c);
+		//adding history button
 		c.gridx=2;
 		c.gridy=0;
 		button5.setBackground(Color.green);
 		button5.setForeground(Color.white);
 		button5.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button5,c);
+		
+	}
+
+	//this changes music icon
+	public void actionPerformed(ActionEvent e) {
+		if(soundButtonMode==1) {
+			button3.setIcon(icon2);
+			soundButtonMode=0;
+		}
+		else {
+			button3.setIcon(icon1);
+			soundButtonMode=1;
+		}
 		
 	}
 }
