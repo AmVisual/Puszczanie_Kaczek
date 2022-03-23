@@ -14,17 +14,17 @@ public class InsertValueField extends JTextField implements ActionListener {
 	double lastValue; //last given value
 	DataPanel dataPanel; //reference to data panel
 	
-	String labelType; //which parameter the field gets
+	int labelType; //which parameter the field gets
 	
 	//labeTypes
-	public static final String VELOCITY = "VELOCITY";
-	public static final String THROW_ANGLE = "THROW_ANGLE";
-	public static final String STONE_ANGLE = "STONE_ANGLE";
-	public static final String MASS = "MASS";
-	public static final String HEIGHT = "HEIGHT";
-	public static final String COEFFICIENT = "COEFFICIENT";
+	public static final int VELOCITY = 0;
+	public static final int THROW_ANGLE = 1;
+	public static final int STONE_ANGLE = 2;
+	public static final int MASS = 3;
+	public static final int HEIGHT = 4;
+	public static final int COEFFICIENT = 5;
 	
-	public InsertValueField(double minValue, double maxValue, String labelType, DataPanel dataPanel) {
+	public InsertValueField(double minValue, double maxValue, int labelType, DataPanel dataPanel) {
 		super();
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -95,22 +95,22 @@ public class InsertValueField extends JTextField implements ActionListener {
 			
 			//set value to stone
 			switch(labelType) {
-				case "VELOCITY":
+				case VELOCITY:
 					dataPanel.getStone().setVelocity(value);
 					break;
-				case "THROW_ANGLE":
+				case THROW_ANGLE:
 					dataPanel.getStone().setThrowAngle(value);
 					break;
-				case "STONE_ANGLE":
+				case STONE_ANGLE:
 					dataPanel.getStone().setStoneAngle(value);
 					break;
-				case "MASS":
+				case MASS:
 					dataPanel.getStone().setMass(value);
 					break;
-				case "HEIGHT":
+				case HEIGHT:
 					dataPanel.getStone().setHeight(value);
 					break;
-				case "COEFFICIENT":
+				case COEFFICIENT:
 					dataPanel.getStone().setCoefficient(value);
 					break;
 				default:
