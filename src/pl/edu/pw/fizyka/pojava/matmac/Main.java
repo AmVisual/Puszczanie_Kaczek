@@ -1,4 +1,4 @@
-package po.matmac;
+package pl.edu.pw.fizyka.pojava.matmac;
 
 public class Main {
 

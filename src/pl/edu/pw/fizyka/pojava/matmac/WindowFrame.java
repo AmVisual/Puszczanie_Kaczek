@@ -1,4 +1,4 @@
-package po.matmac;
+package pl.edu.pw.fizyka.pojava.matmac;
 
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;

@@ -1,4 +1,4 @@
-package po.matmac;
+package pl.edu.pw.fizyka.pojava.matmac;
 
 //stone class - stores parameters for simulation
 public class Stone {

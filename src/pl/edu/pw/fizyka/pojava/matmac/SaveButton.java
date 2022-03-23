@@ -1,4 +1,4 @@
-package po.matmac;
+package pl.edu.pw.fizyka.pojava.matmac;
 
 import javax.swing.Action;
 import javax.swing.Icon;
