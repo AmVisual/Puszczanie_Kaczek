@@ -3,8 +3,16 @@ package pl.edu.pw.fizyka.pojava.matmac;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 //class made by Maciej Standerski
 //text field for inserting values
@@ -39,6 +47,7 @@ public class InsertValueField extends JTextField implements ActionListener {
 		this.lastValue = Double.parseDouble(this.getText());
 		
 		this.addActionListener(this);
+		this.addFocusListener(new FieldFocusListener());
 	}
 	
 	
@@ -63,9 +72,8 @@ public class InsertValueField extends JTextField implements ActionListener {
 		return Double.parseDouble(this.getText());
 	}
 	
-	//action listener
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	//private method for listeners
+	void insertValue() {
 		try {
 			//get text from the field
 			String text = this.getText();
@@ -124,7 +132,24 @@ public class InsertValueField extends JTextField implements ActionListener {
 			System.out.println("The given format is not a number");
 			this.setText(Double.toString(lastValue));
 		}
-		
 	}
+	
+	//action listener
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		insertValue();
+	}
+	//focus listener
+	public class FieldFocusListener implements FocusListener {
 
+		@Override
+		public void focusGained(FocusEvent e) {
+			InsertValueField.this.setText("");
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			insertValue();
+		}
+	}
 }
