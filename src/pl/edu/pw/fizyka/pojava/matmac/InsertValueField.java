@@ -128,6 +128,9 @@ public class InsertValueField extends JTextField implements ActionListener {
 					break;
 			}
 			
+			//repaint animation panel
+			dataPanel.getAnimationPanel().repaint();
+			
 		}
 		catch(NumberFormatException exception) {
 			//if text is not a number format
