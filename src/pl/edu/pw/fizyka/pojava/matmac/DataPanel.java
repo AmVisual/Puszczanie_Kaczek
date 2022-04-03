@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 //right panel is responsible for inserting data
 public class DataPanel extends JPanel implements ActionListener{
 
-	Stone stone; //stone object
+	//Stone stone; //stone object
 	
 	//fields
 	InsertValueField velocityField;
@@ -21,6 +21,9 @@ public class DataPanel extends JPanel implements ActionListener{
 	InsertValueField massField;
 	InsertValueField heightField;
 	InsertValueField coefficientField;
+	
+	//reference to animation panel
+	AnimationPanel animationPanel;
 	
 	public DataPanel() {
 		super();
@@ -69,6 +72,18 @@ public class DataPanel extends JPanel implements ActionListener{
 		coefficientField = new InsertValueField(0.2, 0.6, InsertValueField.COEFFICIENT, this);
 		container.add(coefficientField);
 		
+		//play button
+		PlayButton playButton = new PlayButton();
+		playButton.addActionListener(this);
+		container.add(playButton);
+	}
+	
+	public AnimationPanel getAnimationPanel() {
+		return animationPanel;
+	}
+
+	public void setAnimationPanel(AnimationPanel animationPanel) {
+		this.animationPanel = animationPanel;
 		//stone
 		double velocity = velocityField.getValue();
 		double throwAngle = throwAngleField.getValue();
@@ -76,29 +91,20 @@ public class DataPanel extends JPanel implements ActionListener{
 		double mass = massField.getValue();
 		double height = heightField.getValue();
 		double coefficient = coefficientField.getValue();
-		
-		this.stone = new Stone(velocity, throwAngle, stoneAngle, mass, height, coefficient);
-		
-		//play button
-		PlayButton playButton = new PlayButton();
-		playButton.addActionListener(this);
-		container.add(playButton);
-	}
-	
-	//getter for stone object
-	public Stone getStone() {
-		return stone;
+				
+		this.animationPanel.setStone(new Stone(velocity, throwAngle, stoneAngle, mass, height, coefficient));
 	}
 	
 	//action listener for play button
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Velocity: " + this.stone.getVelocity());
-		System.out.println("Throw angle: " + this.stone.getThrowAngle());
-		System.out.println("Stone angle: " + this.stone.getStoneAngle());
-		System.out.println("Mass: " + this.stone.getMass());
-		System.out.println("Height: " + this.stone.getHeight());
-		System.out.println("Coefficient: " + this.stone.getCoefficient());
+		Stone stone = this.getAnimationPanel().getStone();
+		System.out.println("Velocity: " + stone.getVelocity());
+		System.out.println("Throw angle: " + stone.getThrowAngle());
+		System.out.println("Stone angle: " + stone.getStoneAngle());
+		System.out.println("Mass: " + stone.getMass());
+		System.out.println("Height: " + stone.getHeight());
+		System.out.println("Coefficient: " + stone.getCoefficient());
 		
 		this.velocityField.setEnabled(false);
 		this.throwAngleField.setEnabled(false);

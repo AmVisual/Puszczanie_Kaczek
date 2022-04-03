@@ -9,6 +9,12 @@ import javax.swing.JPanel;
 
 //panel for the animation
 public class AnimationPanel extends JPanel {
+	
+	//stone object
+	Stone stone;
+	
+	//reference to dataPanel
+	DataPanel dataPanel;
 
 	public AnimationPanel() {
 		JLabel info = new JLabel("Animacja");
@@ -31,6 +37,22 @@ public class AnimationPanel extends JPanel {
 	public AnimationPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Stone getStone() {
+		return stone;
+	}
+
+	public void setStone(Stone stone) {
+		this.stone = stone;
+	}
+
+	public DataPanel getDataPanel() {
+		return dataPanel;
+	}
+
+	public void setDataPanel(DataPanel dataPanel) {
+		this.dataPanel = dataPanel;
 	}
 
 }

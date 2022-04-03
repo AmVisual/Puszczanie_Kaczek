@@ -101,25 +101,27 @@ public class InsertValueField extends JTextField implements ActionListener {
 				this.lastValue = Double.parseDouble(text);
 			}
 			
+			//reference to stone
+			Stone stone = dataPanel.getAnimationPanel().getStone();
 			//set value to stone
 			switch(labelType) {
 				case VELOCITY:
-					dataPanel.getStone().setVelocity(value);
+					stone.setVelocity(value);
 					break;
 				case THROW_ANGLE:
-					dataPanel.getStone().setThrowAngle(value);
+					stone.setThrowAngle(value);
 					break;
 				case STONE_ANGLE:
-					dataPanel.getStone().setStoneAngle(value);
+					stone.setStoneAngle(value);
 					break;
 				case MASS:
-					dataPanel.getStone().setMass(value);
+					stone.setMass(value);
 					break;
 				case HEIGHT:
-					dataPanel.getStone().setHeight(value);
+					stone.setHeight(value);
 					break;
 				case COEFFICIENT:
-					dataPanel.getStone().setCoefficient(value);
+					stone.setCoefficient(value);
 					break;
 				default:
 					System.out.println("The label has no type");

@@ -25,10 +25,13 @@ public class WindowFrame extends JFrame {
 		this.setLayout(new GridBagLayout());
 		//score panel
 		ScorePanel ScorePanel = new ScorePanel();
-		//right panel - data panel
-		DataPanel DataPanel = new DataPanel();
 		//animation panel
 		AnimationPanel AnimationPanel = new AnimationPanel();
+		//right panel - data panel
+		DataPanel DataPanel = new DataPanel();
+		//references between data and animation panels
+		AnimationPanel.setDataPanel(DataPanel);
+		DataPanel.setAnimationPanel(AnimationPanel);
 		//center panel - contains score panel and animation panel
 		JPanel CenterPanel=new JPanel(new GridBagLayout());
 		//setting the GridBagLayout
