@@ -1,12 +1,8 @@
 package pl.edu.pw.fizyka.pojava.matmac;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 //panel for the animation
@@ -55,8 +51,8 @@ public class AnimationPanel extends JPanel {
 		//stone
 		this.startingPoint[0] = bankPosition;
 		this.startingPoint[1] = waterLevel - (int)(this.getStone().getHeight()*scale);
-		g.setColor(Color.GRAY);
-		g.fillRect(startingPoint[0], startingPoint[1], 100, 50);
+		
+		stone.paint(g, startingPoint[0], startingPoint[1], scale);
 	}
 	
 	public Stone getStone() {
