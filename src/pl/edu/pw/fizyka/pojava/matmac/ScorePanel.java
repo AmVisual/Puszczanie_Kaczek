@@ -8,12 +8,18 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,12 +30,12 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JPanel panelCenter=new JPanel();
 	JPanel panelRight=new JPanel();
 	ScoreLabel label1=new ScoreLabel("Najlepszy rzut:");
-	ScoreLabel label2=new ScoreLabel("Liczba odbiæ: n");
-	ScoreLabel label3=new ScoreLabel("Odleg³oœæ: s");
+	ScoreLabel label2=new ScoreLabel("Liczba odbiï¿½: n");
+	ScoreLabel label3=new ScoreLabel("Odlegï¿½oï¿½ï¿½: s");
 	ScoreLabel label4=new ScoreLabel("Czas lotu: t");
 	ScoreLabel label5=new ScoreLabel("Ostatni rzut:");
-	ScoreLabel label6=new ScoreLabel("Liczba odbiæ: n");
-	ScoreLabel label7=new ScoreLabel("Odleg³oœæ: s");
+	ScoreLabel label6=new ScoreLabel("Liczba odbiï¿½: n");
+	ScoreLabel label7=new ScoreLabel("Odlegï¿½oï¿½ï¿½: s");
 	ScoreLabel label8=new ScoreLabel("Czas lotu: t");
 	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
 	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
@@ -38,9 +44,11 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JButton button3=new JButton(icon1);
 	JButton button4=new JButton("PL/EN");
 	JButton button5=new JButton("HISTORIA");
+	JButton button6=new JButton("Zapisz");
+	JFileChooser chooser=new JFileChooser();
 	int soundButtonMode=1;
-	
-	
+	int languageMode=0;
+	JLabel label9=new JLabel("xd \t xd \t xd \t");
 	
 	public ScorePanel() {
 		super();
@@ -63,7 +71,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(5,5,5,5);
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		panelLeft.add(label1,c);
-		//adding "Liczba odbiæ: n" label
+		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
 		c.gridy=0;
 		c.insets=new Insets(5,5,5,5);
@@ -78,7 +86,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button1.setForeground(Color.white);
 		button1.setFont(new Font("Calibri", Font.PLAIN,24));
 		panelLeft.add(button1,c);
-		//adding "Odleg³oœæ: s" label
+		//adding "Odlegï¿½oï¿½ï¿½: s" label
 		c.gridx=1;
 		c.gridy=1;
 		c.gridheight=1;
@@ -103,7 +111,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(5,5,5,5);
 		label5.setHorizontalAlignment(JLabel.CENTER);
 		panelCenter.add(label5,c);
-		//adding "Liczba odbiæ: n" label
+		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
 		c.gridy=0;
 		c.insets=new Insets(5,5,5,5);
@@ -118,7 +126,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button2.setForeground(Color.white);
 		button2.setFont(new Font("Calibri", Font.PLAIN,24));
 		panelCenter.add(button2,c);
-		//adding "Odleg³oœæ: s" label
+		//adding "Odlegï¿½oï¿½ï¿½: s" label
 		c.gridx=1;
 		c.gridy=1;
 		c.gridheight=1;
@@ -142,8 +150,6 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(20,10,20,10);
 		//adding music button
 		button3.setBackground(Color.green);
-		//ActionListener switches button icon
-		button3.addActionListener(this);
 		panelRight.add(button3,c);
 		//adding language switch button
 		c.gridx=1;
@@ -160,17 +166,100 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button5.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button5,c);
 		
+		//adding listeners
+		button1.addActionListener(this);
+		button2.addActionListener(this);
+		button3.addActionListener(this);
+		button4.addActionListener(this);
+		button5.addActionListener(this);
+		button6.addActionListener(this);
+		button1.setActionCommand("1");
+		button2.setActionCommand("2");
+		button3.setActionCommand("3");
+		button4.setActionCommand("4");
+		button5.setActionCommand("5");
+		button6.setActionCommand("6");
 	}
 
-	//this changes music icon
+	
 	public void actionPerformed(ActionEvent e) {
-		if(soundButtonMode==1) {
-			button3.setIcon(icon2);
-			soundButtonMode=0;
+		if(e.getActionCommand().equals("1")) {
+			int returnVal = chooser.showSaveDialog(this);
+			if(returnVal == JFileChooser.APPROVE_OPTION){
+				File fileOut=chooser.getSelectedFile();
+				try {
+					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
+					out.write("xd");
+					out.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			
 		}
-		else {
-			button3.setIcon(icon1);
-			soundButtonMode=1;
+		
+		if(e.getActionCommand().equals("2")) {
+			int returnVal = chooser.showSaveDialog(this);
+			if(returnVal == JFileChooser.APPROVE_OPTION){
+				File fileOut=chooser.getSelectedFile();
+				try {
+					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
+					out.write("xd");
+					out.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			
+		}
+		
+		if(e.getActionCommand().equals("3")) {
+			if(soundButtonMode==1) {
+				button3.setIcon(icon2);
+				soundButtonMode=0;
+			}
+			else {
+				button3.setIcon(icon1);
+				soundButtonMode=1;
+			}
+		}
+		
+		if(e.getActionCommand().equals("4")) {
+			if(languageMode==0)
+				languageMode=1;
+			else
+				languageMode=0;
+		}
+		
+		if(e.getActionCommand().equals("5")) {
+			JDialog dialog=new JDialog(Main.frame);
+			dialog.setSize(600, 400);
+			dialog.setTitle("Historia");
+			dialog.setLayout(new GridLayout(2,1));
+			dialog.add(label9);
+			dialog.add(button6);
+			
+			
+			
+			
+			
+			dialog.setVisible(true);
+		}
+		
+		if(e.getActionCommand().equals("6")) {
+			int returnVal = chooser.showSaveDialog(this);
+			if(returnVal == JFileChooser.APPROVE_OPTION){
+				File fileOut=chooser.getSelectedFile();
+				try {
+					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
+					out.write("xd");
+					out.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 		
 	}
