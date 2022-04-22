@@ -63,7 +63,7 @@ public class DataPanel extends JPanel implements ActionListener{
 		//height
 		InsertValueLabel heightLabel = new InsertValueLabel("Wysokoœæ rzutu [m]");
 		container.add(heightLabel);
-		heightField = new InsertValueField(10.0, 150.0, InsertValueField.HEIGHT, this);
+		heightField = new InsertValueField(0.1, 1.5, InsertValueField.HEIGHT, this);
 		container.add(heightField);
 		
 		//drag coefficient
