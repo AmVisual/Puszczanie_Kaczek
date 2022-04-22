@@ -19,9 +19,9 @@ public class WindowFrame extends JFrame {
 	public void setWindowFrame() {
 		//this function sets how the window looks like
 		
-		device.setFullScreenWindow(this);
-		this.setResizable(false);
-		//this.setSize(1000,650);
+		//device.setFullScreenWindow(this);
+		//this.setResizable(false);
+		this.setSize(1000,650);
 		this.setLayout(new GridBagLayout());
 		//score panel
 		ScorePanel ScorePanel = new ScorePanel();
