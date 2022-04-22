@@ -30,12 +30,12 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JPanel panelCenter=new JPanel();
 	JPanel panelRight=new JPanel();
 	ScoreLabel label1=new ScoreLabel("Najlepszy rzut:");
-	ScoreLabel label2=new ScoreLabel("Liczba odbiï¿½: n");
-	ScoreLabel label3=new ScoreLabel("Odlegï¿½oï¿½ï¿½: s");
+	ScoreLabel label2=new ScoreLabel("Liczba odbiæ: n");
+	ScoreLabel label3=new ScoreLabel("Odleg³oœæ: s");
 	ScoreLabel label4=new ScoreLabel("Czas lotu: t");
 	ScoreLabel label5=new ScoreLabel("Ostatni rzut:");
-	ScoreLabel label6=new ScoreLabel("Liczba odbiï¿½: n");
-	ScoreLabel label7=new ScoreLabel("Odlegï¿½oï¿½ï¿½: s");
+	ScoreLabel label6=new ScoreLabel("Liczba odbiæ: n");
+	ScoreLabel label7=new ScoreLabel("Odleg³oœæ: s");
 	ScoreLabel label8=new ScoreLabel("Czas lotu: t");
 	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
 	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
