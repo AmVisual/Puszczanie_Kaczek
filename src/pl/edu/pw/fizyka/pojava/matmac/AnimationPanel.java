@@ -20,7 +20,7 @@ public class AnimationPanel extends JPanel {
 	double bankPosition = 0.1; //position of river bank is BankPosition*animationPanelWidth
 	int[] coordinateOrigin; //position of coordinate system origin
 	int[] startingPoint; //position of the stone
-	int scale = 400; //number of pixels per 1 meter
+	int scale = 300; //number of pixels per 1 meter
 	
 	public AnimationPanel() {
 		this.setBackground(Color.CYAN);
@@ -53,6 +53,8 @@ public class AnimationPanel extends JPanel {
 		this.startingPoint[1] = waterLevel - (int)(this.getStone().getHeight()*scale);
 		
 		stone.paint(g, startingPoint[0], startingPoint[1], scale);
+		//arrow
+		Arrow.paint(g, startingPoint[0], startingPoint[1], stone.getThrowAngle(), stone.getVelocity());
 	}
 	
 	public Stone getStone() {
