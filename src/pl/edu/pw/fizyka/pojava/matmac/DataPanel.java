@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ public class DataPanel extends JPanel implements ActionListener{
 	InsertValueField massField;
 	InsertValueField heightField;
 	InsertValueField coefficientField;
+	//play button
+	PlayButton playButton;
 	
 	//reference to animation panel
 	AnimationPanel animationPanel;
@@ -37,19 +41,19 @@ public class DataPanel extends JPanel implements ActionListener{
 		container.setBorder(BorderFactory.createLineBorder(bgColor, 15));
 		
 		//velocity
-		InsertValueLabel velocityLabel = new InsertValueLabel("Prêdkoœæ rzutu [m/s]");
+		InsertValueLabel velocityLabel = new InsertValueLabel("PrÄ™dkoÅ›Ä‡ rzutu [m/s]");
 		container.add(velocityLabel);
 		velocityField = new InsertValueField(1.0, 50.0, InsertValueField.VELOCITY, this);
 		container.add(velocityField);
 		
 		//throw angle
-		InsertValueLabel throwAngleLabel = new InsertValueLabel("K¹t rzutu (do osi OX) [o]");
+		InsertValueLabel throwAngleLabel = new InsertValueLabel("KÄ…t rzutu (do osi OX) [o]");
 		container.add(throwAngleLabel);
 		throwAngleField = new InsertValueField(0.0, 85.0, InsertValueField.THROW_ANGLE, this);
 		container.add(throwAngleField);
 		
 		//stone angle - the angle between stone's surface and x axis
-		InsertValueLabel stoneAngleLabel = new InsertValueLabel("K¹t kamienia (do osi OX) [o]");
+		InsertValueLabel stoneAngleLabel = new InsertValueLabel("KÄ…t kamienia (do osi OX) [o]");
 		container.add(stoneAngleLabel);
 		stoneAngleField = new InsertValueField(0.0, 90.0, InsertValueField.STONE_ANGLE, this);
 		container.add(stoneAngleField);
@@ -61,19 +65,19 @@ public class DataPanel extends JPanel implements ActionListener{
 		container.add(massField);
 		
 		//height
-		InsertValueLabel heightLabel = new InsertValueLabel("Wysokoœæ rzutu [m]");
+		InsertValueLabel heightLabel = new InsertValueLabel("WysokoÅ›Ä‡ rzutu [m]");
 		container.add(heightLabel);
 		heightField = new InsertValueField(0.1, 1.5, InsertValueField.HEIGHT, this);
 		container.add(heightField);
 		
 		//drag coefficient
-		InsertValueLabel coefficientLabel = new InsertValueLabel("Wspó³czynnik oporu powietrza [kg/s]");
+		InsertValueLabel coefficientLabel = new InsertValueLabel("WspÃ³Å‚czynnik oporu powietrza [kg/s]");
 		container.add(coefficientLabel);
-		coefficientField = new InsertValueField(0.2, 0.6, InsertValueField.COEFFICIENT, this);
+		coefficientField = new InsertValueField(0.01, 0.6, InsertValueField.COEFFICIENT, this);
 		container.add(coefficientField);
 		
 		//play button
-		PlayButton playButton = new PlayButton();
+		playButton = new PlayButton();
 		playButton.addActionListener(this);
 		container.add(playButton);
 	}
@@ -112,6 +116,20 @@ public class DataPanel extends JPanel implements ActionListener{
 		this.massField.setEnabled(false);
 		this.heightField.setEnabled(false);
 		this.coefficientField.setEnabled(false);
+		
+		try {
+			animationPanel.getTrack().segments.clear();
+		} catch (Exception e1) {
+			System.out.println("Program has not created a list yet.");
+		}
+		
+		animationPanel.setTrack(new MotionTrack(stone,animationPanel,this));
+		animationPanel.getTrack().generateTrack();
+		
+		animationPanel.animation = true;
+		ExecutorService exec = Executors.newFixedThreadPool(1);
+		exec.execute(animationPanel.track);
+		exec.shutdown();
 	}
 
 }

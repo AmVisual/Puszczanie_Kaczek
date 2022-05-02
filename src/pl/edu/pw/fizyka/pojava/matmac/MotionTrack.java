@@ -1,0 +1,289 @@
+package pl.edu.pw.fizyka.pojava.matmac;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.util.ArrayList;
+
+public class MotionTrack implements Runnable {
+	//initial parameters
+	double startingPoint[]; //a point where the movement starts [m]
+	double initVelocity; //value of initial velocity [m/s]
+	double initThrowAngle; //value of initial throw angle [rad]
+	//constants
+	double mass; //stone's mass [kg]
+	double airResCoefficient; //air resistance coefficient [kg/s]
+	double stoneAngle; //angle at which the stone is tilted to the x axis [rad]
+	double stoneSize;
+	
+	double gravAcceleration = 9.81;//gravitational acceleration [m/s^2]
+	double waterDensity = 1000; //water density [kg/m^3]
+	double coefficient = 2.7209; //a certain coefficient which includes boyancy ceofficient
+						//and proportion coefficient
+	
+	//track info
+	int numberOfSkips; //how many times the stone skipped
+	double distance; //distance made by stone
+	double flightTime; //how long the stone was in motion
+	
+	//the entire track consists of smaller tracks - segments
+	public class TrackSegment {
+		double x0, y0; //segment's starting point
+		double v0; //segment's initial velocity
+		double angle; //angle at which the velocity vector is tilted
+		double time; //time between the beginning of motion in [x0,y0] and collision with water
+		
+		//points
+		ArrayList<double[]> points; //list of points
+		
+		//constatnts
+		double a, b, c, d, e;
+		
+		public TrackSegment(double x0, double y0, double v0, double angle) {
+			this.x0 = x0;
+			this.y0 = y0;
+			this.v0 = v0;
+			this.angle = angle;
+			
+			points = new ArrayList<double[]>();
+			
+			a = this.y0;
+			b = (mass * this.v0 * Math.sin(this.angle))/airResCoefficient
+					+ (mass*mass*gravAcceleration)/(airResCoefficient*airResCoefficient);
+			c = airResCoefficient/mass;
+			d = mass * gravAcceleration / airResCoefficient;
+			e = (mass * this.v0 * Math.cos(this.angle))/airResCoefficient;
+			
+			double x = -b*c*Math.exp(-((a+b)*c)/d)/d;
+			double W_x = x*(1+x*(-1+x*(3/2+x*(-8/3+x*(125/24+x*(-54/5+x*(16807/720+x*(-16384/315+x*(531441/4480+x*(-156250/567*x)))))))))); //Lambert function
+			this.time = (d*W_x + a*c + b*c) / (c*d);
+		}
+
+		public double getX0() {
+			return x0;
+		}
+
+		public double getY0() {
+			return y0;
+		}
+
+		public double getV0() {
+			return v0;
+		}
+
+		public double getAngle() {
+			return angle;
+		}
+		
+		public double getTime() {
+			return time;
+		}
+		
+		//function for generating a point in given time
+		public void generatePoint(double t) {
+			double[] p = new double[2];
+			p[0] = x0 + e*(1-Math.exp(-c*t));
+			p[1] = y0 + b*(1-Math.exp(-c*t)) - d * t;
+			points.add(p);
+		}
+	}
+	
+	ArrayList<MotionTrack.TrackSegment> segments; //list of track's segments
+	
+	//for animation
+	int pointID; //current point's id
+	int segmentID; //curent segment's id
+	AnimationPanel animationPanel; //pointer on animation panel
+	DataPanel dataPanel;
+	
+	public MotionTrack(Stone stone, AnimationPanel animationPanel, DataPanel dataPanel) {
+		//setting up parameters
+		this.startingPoint = new double[2];
+		startingPoint[0] = 0;
+		startingPoint[1] = stone.getHeight();
+		initVelocity = stone.getVelocity();
+		initThrowAngle = Math.toRadians(stone.getThrowAngle());
+		mass = stone.getMass() / 1000; //mass is in kg
+		airResCoefficient = stone.getCoefficient();
+		stoneAngle = Math.toRadians(stone.getStoneAngle());
+		stoneSize = stone.getStoneSize();
+		this.animationPanel = animationPanel;
+		this.dataPanel = dataPanel;
+		
+		//initialising info about the track
+		numberOfSkips = 0;
+		distance = 0;
+		flightTime = 0;
+		
+		//initialising list of segments
+		segments = new ArrayList<MotionTrack.TrackSegment>();
+	}
+	
+	public void generateTrack() {
+		//adding first segment
+		segments.add(new TrackSegment(startingPoint[0], startingPoint[1], initVelocity, initThrowAngle));
+		TrackSegment segmentPtr = segments.get(0); //segment pointer
+		
+		double timer = 0; //timer for each segment
+		boolean inMotion = true; //true as long as the stone is in motion
+		
+		while(inMotion) {
+			//generating points in segment
+			while(timer <= segmentPtr.getTime()) {
+				if(timer == 0) {
+					double[] point = {segmentPtr.getX0(), segmentPtr.getY0()};
+					segmentPtr.points.add(point);
+				}
+				else {
+					segmentPtr.generatePoint(timer);
+				}
+				timer += 0.01;
+			}
+			
+			//checking velocities
+			timer -= 0.01;
+			double beta = airResCoefficient/mass;
+			double vx0 = segmentPtr.getV0() * Math.cos(segmentPtr.getAngle());
+			double vy0 = segmentPtr.getV0() * Math.sin(segmentPtr.getAngle());
+			double vx = vx0 * Math.exp(-beta*timer);
+			double vy = (vy0 + gravAcceleration / beta) * Math.exp(-beta*timer) - gravAcceleration / beta;
+			
+			if(vy <= 0.01 * vx) {
+				double sqrt = Math.sqrt(2*mass*Math.sin(stoneAngle)/(waterDensity*stoneSize));
+				double vxSqr = vx*vx - 4*Math.PI*gravAcceleration*sqrt/coefficient;
+				if(vxSqr > 0) {
+					vx = Math.sqrt(vxSqr);
+					vy = -vy;
+					double v = Math.sqrt(vx*vx + vy*vy);
+					double angle = Math.asin(vy/v);
+					
+					//increment the number of skips
+					numberOfSkips++;
+					
+					//adding new segment to the track
+					double x = segmentPtr.points.get(segmentPtr.points.size()-1)[0];
+					double y = segmentPtr.points.get(segmentPtr.points.size()-1)[1];
+					segments.add(new TrackSegment(x,y,v,angle));
+					segmentPtr = segments.get(segments.size()-1);
+				}
+				else {
+					inMotion = false;
+				}
+			}
+			else {
+				inMotion = false;
+			}
+			flightTime += timer;
+			timer = 0;
+		}
+		distance = segmentPtr.points.get(segmentPtr.points.size()-1)[0];
+		
+		System.out.println("Number of skips: " + numberOfSkips);
+		System.out.println("Time: " + flightTime);
+		System.out.println("Distance: " + distance);
+	}
+	
+	//for animating a track
+	@Override
+	public void run() {
+		TrackSegment segmentPtr = segments.get(segmentID);
+		
+		boolean endOfTrack = false;
+		
+		while(!endOfTrack) {
+			if(pointID < segmentPtr.points.size() - 1) {
+				pointID++;
+			}
+			else {
+				if(segmentID < segments.size() - 1) {
+					System.out.println("Segment " + segmentID + ": " + (segmentPtr.points.size() - 1));
+					segmentID++;
+					segmentPtr = segments.get(segmentID);
+					pointID = 1;
+				}
+				else {
+					endOfTrack = true;
+				}
+			}
+			animationPanel.repaint();
+			animationPanel.getToolkit().sync();
+
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//wait for 2 seconds
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		//repaint animation panel
+		animationPanel.animation = false;
+		animationPanel.repaint();
+		
+		//enable data panel
+		dataPanel.velocityField.setEnabled(true);
+		dataPanel.throwAngleField.setEnabled(true);
+		dataPanel.stoneAngleField.setEnabled(true);
+		dataPanel.massField.setEnabled(true);
+		dataPanel.heightField.setEnabled(true);
+		dataPanel.coefficientField.setEnabled(true);
+		dataPanel.playButton.setEnabled(true);
+	}
+	
+	//paint method
+	public void paint(Graphics g, int scale, int waterLevel, int bankPosition, int width, int height, Stone stone) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(new Color(255, 0, 0));
+		float[] dashPattern = {4.0f, 8.0f};
+		Stroke stroke = new BasicStroke(4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 
+				1f, dashPattern, 2f);
+		g2d.setStroke(stroke);
+		
+		//setting scale
+		int scaley = (int) ((waterLevel - 50) / segments.get(segmentID).points.get(pointID)[1]);
+		int scalex = (int) ((width - bankPosition - 100) / segments.get(segmentID).points.get(pointID)[0]);
+		if(scalex < scale || scaley < scale)
+		{
+			if(scalex < Math.abs(scaley))
+				scale = scalex;
+			else
+				scale = Math.abs(scaley);
+		}
+		
+		//draw previous segments
+		TrackSegment segment;
+		for(int i = 0; i < segmentID; i++) {
+			segment = segments.get(i);
+			for(int j = 1; j <= segment.points.size() - 1; j++) {
+				int x1 = bankPosition + (int)(scale * segment.points.get(j-1)[0]);
+				int y1 = waterLevel - (int)(scale * segment.points.get(j-1)[1]);
+				int x2 = bankPosition + (int)(scale * segment.points.get(j)[0]);
+				int y2 = waterLevel - (int)(scale * segment.points.get(j)[1]);
+				
+				g2d.drawLine(x1, y1, x2, y2);
+			}
+		}
+		//draw current segment
+		segment = segments.get(segmentID);
+		for(int i = 1; i <= pointID; i++) {
+			int x1 = bankPosition + (int)(scale * segment.points.get(i-1)[0]);
+			int y1 = waterLevel - (int)(scale * segment.points.get(i-1)[1]);
+			int x2 = bankPosition + (int)(scale * segment.points.get(i)[0]);
+			int y2 = waterLevel - (int)(scale * segment.points.get(i)[1]);
+			
+			g2d.drawLine(x1, y1, x2, y2);
+		}
+		//draw stone
+		double stoneX = bankPosition + (scale * segment.points.get(pointID)[0]);
+		double stoneY = waterLevel - (int)(scale * segment.points.get(pointID)[1]);
+		stone.paint(g, stoneX, stoneY, scale);
+	}
+}

@@ -1,7 +1,10 @@
 package pl.edu.pw.fizyka.pojava.matmac;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import javax.swing.JPanel;
 
@@ -10,7 +13,8 @@ public class AnimationPanel extends JPanel {
 	
 	//stone object
 	Stone stone;
-	
+	//motion track
+	MotionTrack track;
 	//reference to dataPanel
 	DataPanel dataPanel;
 	
@@ -21,6 +25,9 @@ public class AnimationPanel extends JPanel {
 	int[] coordinateOrigin; //position of coordinate system origin
 	int[] startingPoint; //position of the stone
 	int scale = 300; //number of pixels per 1 meter
+	
+	//animation
+	boolean animation = false; //is the panel in initial state or in animation state
 	
 	public AnimationPanel() {
 		this.setBackground(Color.CYAN);
@@ -48,21 +55,36 @@ public class AnimationPanel extends JPanel {
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, waterLevel, bankPosition, height-waterLevel);
 		
-		//stone
-		this.startingPoint[0] = bankPosition;
-		this.startingPoint[1] = waterLevel - (int)(this.getStone().getHeight()*scale);
+		if(animation) {
+			track.paint(g, scale, waterLevel, bankPosition, width, height, stone);
+		}
+		else {
+			//stone
+			this.startingPoint[0] = bankPosition;
+			this.startingPoint[1] = waterLevel - (int)(this.getStone().getHeight()*scale);
+			
+			stone.paint(g, startingPoint[0], startingPoint[1], scale);
+			//arrow
+			Arrow.paint(g, startingPoint[0], startingPoint[1], stone.getThrowAngle(), stone.getVelocity());
+		}
 		
-		stone.paint(g, startingPoint[0], startingPoint[1], scale);
-		//arrow
-		Arrow.paint(g, startingPoint[0], startingPoint[1], stone.getThrowAngle(), stone.getVelocity());
 	}
 	
+	//getters and setters
 	public Stone getStone() {
 		return stone;
 	}
 
 	public void setStone(Stone stone) {
 		this.stone = stone;
+	}
+
+	public MotionTrack getTrack() {
+		return track;
+	}
+
+	public void setTrack(MotionTrack track) {
+		this.track = track;
 	}
 
 	public DataPanel getDataPanel() {
