@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 
 //panel for the animation
 public class AnimationPanel extends JPanel {
-	
+	private static final long serialVersionUID = 1L;
+
 	//stone object
 	Stone stone;
 	//motion track

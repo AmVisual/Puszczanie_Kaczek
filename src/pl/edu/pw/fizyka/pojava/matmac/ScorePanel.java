@@ -1,5 +1,6 @@
 package pl.edu.pw.fizyka.pojava.matmac;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -12,13 +13,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,14 +30,22 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JPanel panelLeft=new JPanel();
 	JPanel panelCenter=new JPanel();
 	JPanel panelRight=new JPanel();
-	ScoreLabel label1=new ScoreLabel("Najlepszy rzut:");
-	ScoreLabel label2=new ScoreLabel("Liczba odbić: n");
-	ScoreLabel label3=new ScoreLabel("Odległość: s");
-	ScoreLabel label4=new ScoreLabel("Czas lotu: t");
-	ScoreLabel label5=new ScoreLabel("Ostatni rzut:");
-	ScoreLabel label6=new ScoreLabel("Liczba odbić: n");
-	ScoreLabel label7=new ScoreLabel("Odległość: s");
-	ScoreLabel label8=new ScoreLabel("Czas lotu: t");
+
+	ScoreLabel label1=new ScoreLabel("Najlepszy rzut");
+	ScoreLabel label2=new ScoreLabel("Liczba odbić:");
+	ScoreLabel label3=new ScoreLabel("Odległość:");
+	ScoreLabel label4=new ScoreLabel("Czas lotu:");
+	ScoreLabel label5=new ScoreLabel("Ostatni rzut");
+	ScoreLabel label6=new ScoreLabel("Liczba odbić:");
+	ScoreLabel label7=new ScoreLabel("Odległość:");
+	ScoreLabel label8=new ScoreLabel("Czas lotu:");
+	ScoreLabel labelN1=new ScoreLabel(" ");
+	ScoreLabel labelN2=new ScoreLabel(" ");
+	ScoreLabel labelS1=new ScoreLabel(" ");
+	ScoreLabel labelS2=new ScoreLabel(" ");
+	ScoreLabel labelT1=new ScoreLabel(" ");
+	ScoreLabel labelT2=new ScoreLabel(" ");
+
 	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
 	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
 	JButton button1=new JButton("Zapisz");
@@ -48,7 +57,8 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JFileChooser chooser=new JFileChooser();
 	int soundButtonMode=1;
 	int languageMode=0;
-	JLabel label9=new JLabel("xd \t xd \t xd \t");
+	JLabel labelxd=new JLabel("xd"+"\n"+"XD");
+	String dialogTitle="Historia";
 	
 	public ScorePanel() {
 		super();
@@ -71,7 +81,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(5,5,5,5);
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		panelLeft.add(label1,c);
-		//adding "Liczba odbi�: n" label
+		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
 		c.gridy=0;
 		c.insets=new Insets(5,5,5,5);
@@ -86,7 +96,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button1.setForeground(Color.white);
 		button1.setFont(new Font("Calibri", Font.PLAIN,24));
 		panelLeft.add(button1,c);
-		//adding "Odleg�o��: s" label
+		//adding "Odlegï¿½oï¿½ï¿½: s" label
 		c.gridx=1;
 		c.gridy=1;
 		c.gridheight=1;
@@ -99,6 +109,17 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(0,5,0,5);
 		panelLeft.add(label4,c);
 		
+		c.gridx=2;
+		c.gridy=0;
+		panelLeft.add(labelN1,c);
+		
+		c.gridx=2;
+		c.gridy=1;
+		panelLeft.add(labelS1,c);
+		
+		c.gridx=2;
+		c.gridy=2;
+		panelLeft.add(labelT1,c);
 		
 		//working on center panel
 		panelCenter.setBackground(Color.black);
@@ -111,7 +132,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(5,5,5,5);
 		label5.setHorizontalAlignment(JLabel.CENTER);
 		panelCenter.add(label5,c);
-		//adding "Liczba odbi�: n" label
+		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
 		c.gridy=0;
 		c.insets=new Insets(5,5,5,5);
@@ -126,7 +147,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button2.setForeground(Color.white);
 		button2.setFont(new Font("Calibri", Font.PLAIN,24));
 		panelCenter.add(button2,c);
-		//adding "Odleg�o��: s" label
+		//adding "Odlegï¿½oï¿½ï¿½: s" label
 		c.gridx=1;
 		c.gridy=1;
 		c.gridheight=1;
@@ -139,6 +160,17 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.insets=new Insets(5,5,5,5);
 		panelCenter.add(label8,c);
 		
+		c.gridx=2;
+		c.gridy=0;
+		panelCenter.add(labelN2,c);
+		
+		c.gridx=2;
+		c.gridy=1;
+		panelCenter.add(labelS2,c);
+		
+		c.gridx=2;
+		c.gridy=2;
+		panelCenter.add(labelT2,c);
 		
 		//working on right panel
 		panelRight.setBackground(Color.black);
@@ -189,7 +221,18 @@ public class ScorePanel extends JPanel implements ActionListener{
 				File fileOut=chooser.getSelectedFile();
 				try {
 					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
-					out.write("xd");
+					out.write(Main.stats.getString("Najlepszy rzut")+"\n");
+					out.write(Main.stats.getString("Stats")+"\n");
+					out.write(Main.stats.getString("Liczba odbić:")+" "+labelN1.getText()+"\n");
+					out.write(Main.stats.getString("Odległość:")+" "+labelS1.getText()+"\n");
+					out.write(Main.stats.getString("Czas lotu:")+" "+labelT1.getText()+"\n");
+					out.write(Main.stats.getString("Par")+"\n");
+					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+"\n");
+					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+"\n");
+					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+"\n");
+					out.write(Main.stats.getString("Masa kamienia [g]")+": "+"\n");
+					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+"\n");
+					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+"\n");
 					out.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -205,7 +248,18 @@ public class ScorePanel extends JPanel implements ActionListener{
 				File fileOut=chooser.getSelectedFile();
 				try {
 					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
-					out.write("xd");
+					out.write(Main.stats.getString("Ostatni rzut")+"\n");
+					out.write(Main.stats.getString("Stats")+"\n");
+					out.write(Main.stats.getString("Liczba odbić:")+" "+labelN2.getText()+"\n");
+					out.write(Main.stats.getString("Odległość:")+" "+labelS2.getText()+"\n");
+					out.write(Main.stats.getString("Czas lotu:")+" "+labelT2.getText()+"\n");
+					out.write(Main.stats.getString("Par")+"\n");
+					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+"\n");
+					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+"\n");
+					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+"\n");
+					out.write(Main.stats.getString("Masa kamienia [g]")+": "+"\n");
+					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+"\n");
+					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+"\n");
 					out.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -227,23 +281,60 @@ public class ScorePanel extends JPanel implements ActionListener{
 		}
 		
 		if(e.getActionCommand().equals("4")) {
-			if(languageMode==0)
-				languageMode=1;
-			else
-				languageMode=0;
+			//switch languages after clicking PL/en button
+			if(Main.currentLocale.equals(new Locale("pl","PL"))) {
+				Main.currentLocale=new Locale("en","EN");
+				Main.stats=ResourceBundle.getBundle("pl.edu.pw.fizyka.pojava.matmac.bundles.StatsBundle",Main.currentLocale);
+				
+			}
+			else {
+				Main.currentLocale=new Locale("pl","PL");
+				Main.stats=ResourceBundle.getBundle("pl.edu.pw.fizyka.pojava.matmac.bundles.StatsBundle",Main.currentLocale);
+			}
+			Main.frame.setTitle(Main.stats.getString("Puszczanie kaczek"));
+			dialogTitle=(Main.stats.getString("Historia"));
+			label1.setText(Main.stats.getString("Najlepszy rzut"));
+			label2.setText(Main.stats.getString("Liczba odbić:"));
+			label3.setText(Main.stats.getString("Odległość:"));
+			label4.setText(Main.stats.getString("Czas lotu:"));
+			label5.setText(Main.stats.getString("Ostatni rzut"));
+			label6.setText(Main.stats.getString("Liczba odbić:"));
+			label7.setText(Main.stats.getString("Odległość:"));
+			label8.setText(Main.stats.getString("Czas lotu:"));
+			button1.setText(Main.stats.getString("Zapisz"));
+			button2.setText(Main.stats.getString("Zapisz"));
+			button6.setText(Main.stats.getString("Zapisz"));
+			button5.setText(Main.stats.getString("Historia"));
+			DataPanel.velocityLabel.setText(Main.stats.getString("Prędkość rzutu [m/s]"));
+			DataPanel.throwAngleLabel.setText(Main.stats.getString("Kąt rzutu (do osi OX) [o]"));
+			DataPanel.stoneAngleLabel.setText(Main.stats.getString("Kąt kamienia (do osi OX) [o]"));
+			DataPanel.massLabel.setText(Main.stats.getString("Masa kamienia [g]"));
+			DataPanel.heightLabel.setText(Main.stats.getString("Wysokość rzutu [m]"));
+			DataPanel.coefficientLabel.setText(Main.stats.getString("Współczynnik oporu powietrza [kg/s]"));
+			DataPanel.playButton.setText(Main.stats.getString("RZUĆ!"));
 		}
 		
 		if(e.getActionCommand().equals("5")) {
 			JDialog dialog=new JDialog(Main.frame);
 			dialog.setSize(600, 400);
-			dialog.setTitle("Historia");
-			dialog.setLayout(new GridLayout(2,1));
-			dialog.add(label9);
-			dialog.add(button6);
+			dialog.setTitle(dialogTitle);
+			dialog.setLayout(new BorderLayout());
 			
+			//StringBuilder sb=new StringBuilder();
 			
+			JEditorPane pane=new JEditorPane();
+			pane.setEditable(false);
+			pane.setBackground(Color.black);
+			pane.setForeground(Color.white);
+			pane.setText("xd");
 			
+			dialog.add(pane,BorderLayout.CENTER);
 			
+			button6.setBackground(Color.green);
+			button6.setForeground(Color.white);
+			button6.setFont(new Font("Calibri", Font.PLAIN,24));
+			
+			dialog.add(button6,BorderLayout.SOUTH);
 			
 			dialog.setVisible(true);
 		}
