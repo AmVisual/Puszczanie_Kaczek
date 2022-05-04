@@ -17,12 +17,12 @@ public class WindowFrame extends JFrame {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		this.setSize(1000,650);
 		this.setLayout(new GridBagLayout());
-		//score panel
-		ScorePanel ScorePanel = new ScorePanel();
 		//animation panel
 		AnimationPanel AnimationPanel = new AnimationPanel();
 		//right panel - data panel
 		DataPanel DataPanel = new DataPanel();
+		//score panel
+		ScorePanel ScorePanel = new ScorePanel(DataPanel);
 		//references between data and animation panels
 		AnimationPanel.setDataPanel(DataPanel);
 		DataPanel.setAnimationPanel(AnimationPanel);

@@ -37,6 +37,10 @@ public class DataPanel extends JPanel implements ActionListener{
 	AnimationPanel animationPanel;
 	ScorePanel scorePanel;
 	
+	//last and best throw
+	double[] lastThrow;
+	double[] bestThrow;
+	
 	public DataPanel() {
 		super();
 		JPanel container = new JPanel();
@@ -143,5 +147,4 @@ public class DataPanel extends JPanel implements ActionListener{
 		exec.execute(animationPanel.track);
 		exec.shutdown();
 	}
-
 }

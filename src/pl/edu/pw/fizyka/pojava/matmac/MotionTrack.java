@@ -121,6 +121,31 @@ public class MotionTrack implements Runnable {
 		segments = new ArrayList<MotionTrack.TrackSegment>();
 	}
 	
+	//getters and setters
+	public int getNumberOfSkips() {
+		return numberOfSkips;
+	}
+
+	public void setNumberOfSkips(int numberOfSkips) {
+		this.numberOfSkips = numberOfSkips;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public double getFlightTime() {
+		return flightTime;
+	}
+
+	public void setFlightTime(double flightTime) {
+		this.flightTime = flightTime;
+	}
+	
 	public void generateTrack() {
 		//adding first segment
 		segments.add(new TrackSegment(startingPoint[0], startingPoint[1], initVelocity, initThrowAngle));
@@ -185,6 +210,7 @@ public class MotionTrack implements Runnable {
 		System.out.println("Distance: " + distance);
 	}
 	
+
 	//for animating a track
 	@Override
 	public void run() {
@@ -229,13 +255,35 @@ public class MotionTrack implements Runnable {
 		animationPanel.repaint();
 		
 		//enable data panel
-		dataPanel.velocityField.setEnabled(true);
-		dataPanel.throwAngleField.setEnabled(true);
-		dataPanel.stoneAngleField.setEnabled(true);
-		dataPanel.massField.setEnabled(true);
-		dataPanel.heightField.setEnabled(true);
-		dataPanel.coefficientField.setEnabled(true);
-		dataPanel.playButton.setEnabled(true);
+		DataPanel.velocityField.setEnabled(true);
+		DataPanel.throwAngleField.setEnabled(true);
+		DataPanel.stoneAngleField.setEnabled(true);
+		DataPanel.massField.setEnabled(true);
+		DataPanel.heightField.setEnabled(true);
+		DataPanel.coefficientField.setEnabled(true);
+		DataPanel.playButton.setEnabled(true);
+		
+		dataPanel.lastThrow = new double[]{(double)numberOfSkips, distance, flightTime, 
+				initVelocity, initThrowAngle, stoneAngle, mass, startingPoint[1], airResCoefficient};
+		
+		if(dataPanel.bestThrow == null) {
+			dataPanel.bestThrow = new double[9];
+			System.arraycopy(dataPanel.lastThrow, 0, dataPanel.bestThrow, 0, 9);
+			System.out.println("Zadeklarowano tablice");
+		}
+		else {
+			if(numberOfSkips >= dataPanel.bestThrow[0]) {
+				System.arraycopy(dataPanel.lastThrow, 0, dataPanel.bestThrow, 0, 9);
+				System.out.println("Ostatni rzut jest najlepszym rzutem");
+			}
+		}
+		
+		System.out.println("Best throw: " + dataPanel.bestThrow[0]);
+		
+		ScorePanel.history.add(0, dataPanel.lastThrow);
+		for(double[] i: ScorePanel.history) {
+			System.out.println("n = " + i[0] + ", s = " + i[1] + ", t = " + i[2]);
+		}
 	}
 	
 	//paint method
