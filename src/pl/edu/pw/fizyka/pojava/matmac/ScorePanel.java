@@ -30,6 +30,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JPanel panelLeft=new JPanel();
 	JPanel panelCenter=new JPanel();
 	JPanel panelRight=new JPanel();
+
 	ScoreLabel label1=new ScoreLabel("Najlepszy rzut");
 	ScoreLabel label2=new ScoreLabel("Liczba odbić:");
 	ScoreLabel label3=new ScoreLabel("Odległość:");
@@ -44,6 +45,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 	ScoreLabel labelS2=new ScoreLabel(" ");
 	ScoreLabel labelT1=new ScoreLabel(" ");
 	ScoreLabel labelT2=new ScoreLabel(" ");
+
 	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
 	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
 	JButton button1=new JButton("Zapisz");

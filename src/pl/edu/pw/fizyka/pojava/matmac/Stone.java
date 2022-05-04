@@ -78,6 +78,10 @@ public class Stone {
 		this.coefficient = coefficient;
 	}
 	
+	public double getStoneSize() {
+		return stoneSize;
+	}
+
 	public void paint(Graphics g, double x0, double y0, double scale) {
 		int[] xVerticies = new int[4]; //verticies' x cords [4]
 		int[] yVerticies = new int[4]; //verticies' y cords [4]

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -46,20 +48,22 @@ public class DataPanel extends JPanel implements ActionListener{
 		container.setBackground(bgColor);
 		container.setBorder(BorderFactory.createLineBorder(bgColor, 15));
 		
-		//velocity
 		velocityLabel = new InsertValueLabel("Prędkość rzutu [m/s]");
+    
 		container.add(velocityLabel);
 		velocityField = new InsertValueField(1.0, 50.0, InsertValueField.VELOCITY, this);
 		container.add(velocityField);
 		
 		//throw angle
 		throwAngleLabel = new InsertValueLabel("Kąt rzutu (do osi OX) [o]");
+    
 		container.add(throwAngleLabel);
 		throwAngleField = new InsertValueField(0.0, 85.0, InsertValueField.THROW_ANGLE, this);
 		container.add(throwAngleField);
 		
 		//stone angle - the angle between stone's surface and x axis
 		stoneAngleLabel = new InsertValueLabel("Kąt kamienia (do osi OX) [o]");
+    
 		container.add(stoneAngleLabel);
 		stoneAngleField = new InsertValueField(0.0, 90.0, InsertValueField.STONE_ANGLE, this);
 		container.add(stoneAngleField);
@@ -72,14 +76,16 @@ public class DataPanel extends JPanel implements ActionListener{
 		
 		//height
 		heightLabel = new InsertValueLabel("Wysokość rzutu [m]");
+    
 		container.add(heightLabel);
 		heightField = new InsertValueField(0.1, 1.5, InsertValueField.HEIGHT, this);
 		container.add(heightField);
 		
 		//drag coefficient
 		coefficientLabel = new InsertValueLabel("Wspóczynnik oporu powietrza [kg/s]");
+
 		container.add(coefficientLabel);
-		coefficientField = new InsertValueField(0.2, 0.6, InsertValueField.COEFFICIENT, this);
+		coefficientField = new InsertValueField(0.01, 0.6, InsertValueField.COEFFICIENT, this);
 		container.add(coefficientField);
 		
 		//play button
@@ -122,6 +128,20 @@ public class DataPanel extends JPanel implements ActionListener{
 		DataPanel.massField.setEnabled(false);
 		DataPanel.heightField.setEnabled(false);
 		DataPanel.coefficientField.setEnabled(false);
+    
+    try {
+			animationPanel.getTrack().segments.clear();
+		} catch (Exception e1) {
+			System.out.println("Program has not created a list yet.");
+		}
+		
+		animationPanel.setTrack(new MotionTrack(stone,animationPanel,this));
+		animationPanel.getTrack().generateTrack();
+		
+		animationPanel.animation = true;
+		ExecutorService exec = Executors.newFixedThreadPool(1);
+		exec.execute(animationPanel.track);
+		exec.shutdown();
 	}
 
 }
