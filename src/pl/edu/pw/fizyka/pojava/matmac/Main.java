@@ -4,6 +4,8 @@ package pl.edu.pw.fizyka.pojava.matmac;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.SwingUtilities;
+
 
 public class Main {
 	static WindowFrame frame;
