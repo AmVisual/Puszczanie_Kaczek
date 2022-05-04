@@ -1,26 +1,20 @@
 package pl.edu.pw.fizyka.pojava.matmac;
 
-import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class WindowFrame extends JFrame {
-	
-	static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+	private static final long serialVersionUID = 1L;
+	//static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	
 	public void setWindowFrame() {
 		//this function sets how the window looks like
-		
-		//device.setFullScreenWindow(this);
-		//this.setResizable(false);
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		this.setSize(1000,650);
 		this.setLayout(new GridBagLayout());
 		//score panel

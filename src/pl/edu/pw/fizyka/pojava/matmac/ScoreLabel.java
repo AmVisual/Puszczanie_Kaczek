@@ -13,7 +13,7 @@ public class ScoreLabel extends JLabel {
 		super(text);
 		setHorizontalAlignment(JLabel.LEFT);
 		setForeground(Color.white);
-		setFont(new Font("Calibri", Font.PLAIN,24));
+		setFont(new Font("Calibri", Font.PLAIN,18));
 	}
 
 	
