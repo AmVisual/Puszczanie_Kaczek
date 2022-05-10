@@ -55,10 +55,6 @@ public class MotionTrack implements Runnable {
 			c = airResCoefficient/mass;
 			d = mass * gravAcceleration / airResCoefficient;
 			e = (mass * this.v0 * Math.cos(this.angle))/airResCoefficient;
-			/*
-			double x = -b*c*Math.exp(-((a+b)*c)/d)/d;
-			double W_x = x*(1+x*(-1+x*(3/2+x*(-8/3+x*(125/24+x*(-54/5+x*(16807/720+x*(-16384/315+x*(531441/4480+x*(-156250/567*x)))))))))); //Lambert function
-			this.time = (d*W_x + a*c + b*c) / (c*d);*/
 		}
 
 		public double getX0() {
@@ -310,7 +306,8 @@ public class MotionTrack implements Runnable {
 		DataPanel.playButton.setEnabled(true);
 		
 		dataPanel.lastThrow = new double[]{(double)numberOfSkips, distance, flightTime, 
-				initVelocity, initThrowAngle, stoneAngle, mass, startingPoint[1], airResCoefficient};
+				initVelocity, Math.toDegrees(initThrowAngle), Math.toDegrees(stoneAngle), 
+				mass*1000, startingPoint[1], airResCoefficient};
 		
 		if(dataPanel.bestThrow == null) {
 			dataPanel.bestThrow = new double[9];

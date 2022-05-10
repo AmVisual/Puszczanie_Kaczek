@@ -62,19 +62,19 @@ public class WindowFrame extends JFrame {
 
 	public WindowFrame(GraphicsConfiguration gc) {
 		super(gc);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setWindowFrame();
 	}
 
 	public WindowFrame(String title) throws HeadlessException {
 		super(title);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setWindowFrame();
 	}
 
 	public WindowFrame(String title, GraphicsConfiguration gc) {
 		super(title, gc);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setWindowFrame();
 	}
 
