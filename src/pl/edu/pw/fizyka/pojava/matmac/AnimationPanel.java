@@ -66,7 +66,7 @@ public class AnimationPanel extends JPanel {
 			
 			stone.paint(g, startingPoint[0], startingPoint[1], scale);
 			//arrow
-			Arrow.paint(g, startingPoint[0], startingPoint[1], stone.getThrowAngle(), stone.getVelocity());
+			Arrow.paint(g, startingPoint[0], startingPoint[1], stone.getThrowAngle(), stone.getVelocity(), scale);
 		}
 		
 	}

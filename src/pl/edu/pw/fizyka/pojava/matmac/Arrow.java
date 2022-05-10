@@ -6,13 +6,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class Arrow {
-	public static void paint(Graphics g, double x0, double y0, double angle, double velocity) {
+	public static void paint(Graphics g, double x0, double y0, double angle, double velocity, int scale) {
 		Graphics2D g2d = (Graphics2D) g;
-		int scale = 5; //10 pixels represent 1m/s 
+		int scale1 = scale/60; //max scale: 300, so 5 pixels represent 1m/s 
 		int x1,y1; // end of the arrow
 		double angleRadians = Math.toRadians(angle);
-		x1 = (int)(x0 + scale*velocity*Math.cos(-angleRadians));
-		y1 = (int)(y0 + scale*velocity*Math.sin(-angleRadians));
+		x1 = (int)(x0 + scale1*velocity*Math.cos(-angleRadians));
+		y1 = (int)(y0 + scale1*velocity*Math.sin(-angleRadians));
 		
 		//drawing a line
 		g2d.setColor(new Color(255, 0, 0));
