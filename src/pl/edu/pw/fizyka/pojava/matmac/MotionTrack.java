@@ -383,8 +383,10 @@ public class MotionTrack implements Runnable {
 			g2d.drawLine(x1, y1, x2, y2);
 		}
 		//draw stone
-		double stoneX = bankPosition + (scale * segment.points.get(pointID)[0]);
-		double stoneY = waterLevel - (int)(scale * segment.points.get(pointID)[1]);
-		stone.paint(g, stoneX, stoneY, scale);
+		if(segmentID != segments.size() - 1 || pointID < segment.points.size() - 1) {
+			double stoneX = bankPosition + (scale * segment.points.get(pointID)[0]);
+			double stoneY = waterLevel - (int)(scale * segment.points.get(pointID)[1]);
+			stone.paint(g, stoneX, stoneY, scale);
+		}
 	}
 }
