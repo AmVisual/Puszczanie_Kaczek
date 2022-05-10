@@ -20,10 +20,11 @@ public class StatsBundle_en_EN extends ListResourceBundle {
 			{"Masa kamienia [g]","Stone mass [g]"},
 			{"Wysokość rzutu [m]","Throw height [m]"},
 			{"Współczynnik oporu powietrza [kg/s]","Air resistance coefficient [kg/s]"},
-			{"RZUĆ!","Throw!"},
+			{"RZUĆ!","THROW!"},
 			{"Puszczanie kaczek","Skipping stones"},
 			{"Stats","Statistics"},
 			{"Par","Parameters"},
+			{"Zamknij","Exit"},
 		};
 
 		

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MotionTrack implements Runnable {
@@ -330,6 +331,15 @@ public class MotionTrack implements Runnable {
 		for(double[] i: ScorePanel.history) {
 			System.out.println("n = " + i[0] + ", s = " + i[1] + ", t = " + i[2]);
 		}
+		
+		ScorePanel.labelN1.setText(new DecimalFormat("#").format(dataPanel.bestThrow[0]));
+		ScorePanel.labelS1.setText(new DecimalFormat("#.0#").format(dataPanel.bestThrow[1]));
+		ScorePanel.labelT1.setText(new DecimalFormat("#.0#").format(dataPanel.bestThrow[2]));
+		ScorePanel.labelN2.setText(new DecimalFormat("#").format(dataPanel.lastThrow[0]));
+		ScorePanel.labelS2.setText(new DecimalFormat("#.0#").format(dataPanel.lastThrow[1]));
+		ScorePanel.labelT2.setText(new DecimalFormat("#.0#").format(dataPanel.lastThrow[2]));
+		
+		
 	}
 	
 	//paint method

@@ -22,6 +22,7 @@ public class StatsBundle extends ListResourceBundle {
 			{"Puszczanie kaczek","Puszczanie kaczek"},
 			{"Stats","Statystyki"},
 			{"Par","Parametry"},
+			{"Zamknij","Zamknij"},
 		};
 
 		
