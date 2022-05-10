@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -30,7 +31,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JPanel panelLeft=new JPanel();
 	JPanel panelCenter=new JPanel();
 	JPanel panelRight=new JPanel();
-
+	
 	ScoreLabel label1=new ScoreLabel("Najlepszy rzut");
 	ScoreLabel label2=new ScoreLabel("Liczba odbić:");
 	ScoreLabel label3=new ScoreLabel("Odległość:");
@@ -60,8 +61,16 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JLabel labelxd=new JLabel("xd"+"\n"+"XD");
 	String dialogTitle="Historia";
 	
-	public ScorePanel() {
+	//data panel reference
+	DataPanel dataPanel;
+	
+	//history
+	static ArrayList<double[]> history;
+	
+	public ScorePanel(DataPanel dataPanel) {
 		super();
+		this.dataPanel = dataPanel;
+		history = new ArrayList<double[]>();
 		setLayout(new GridLayout(1,3));
 		
 		//splitting ScorePanel into 3 panels

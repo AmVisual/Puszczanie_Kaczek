@@ -55,10 +55,10 @@ public class MotionTrack implements Runnable {
 			c = airResCoefficient/mass;
 			d = mass * gravAcceleration / airResCoefficient;
 			e = (mass * this.v0 * Math.cos(this.angle))/airResCoefficient;
-			
+			/*
 			double x = -b*c*Math.exp(-((a+b)*c)/d)/d;
 			double W_x = x*(1+x*(-1+x*(3/2+x*(-8/3+x*(125/24+x*(-54/5+x*(16807/720+x*(-16384/315+x*(531441/4480+x*(-156250/567*x)))))))))); //Lambert function
-			this.time = (d*W_x + a*c + b*c) / (c*d);
+			this.time = (d*W_x + a*c + b*c) / (c*d);*/
 		}
 
 		public double getX0() {
@@ -121,52 +121,108 @@ public class MotionTrack implements Runnable {
 		segments = new ArrayList<MotionTrack.TrackSegment>();
 	}
 	
+	//getters and setters
+	public int getNumberOfSkips() {
+		return numberOfSkips;
+	}
+
+	public void setNumberOfSkips(int numberOfSkips) {
+		this.numberOfSkips = numberOfSkips;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public double getFlightTime() {
+		return flightTime;
+	}
+
+	public void setFlightTime(double flightTime) {
+		this.flightTime = flightTime;
+	}
+	
 	public void generateTrack() {
 		//adding first segment
 		segments.add(new TrackSegment(startingPoint[0], startingPoint[1], initVelocity, initThrowAngle));
 		TrackSegment segmentPtr = segments.get(0); //segment pointer
 		
-		double timer = 0; //timer for each segment
+		double timer = 0.01; //timer for each segment
 		boolean inMotion = true; //true as long as the stone is in motion
+		int pointID = 0;
 		
 		while(inMotion) {
-			//generating points in segment
-			while(timer <= segmentPtr.getTime()) {
-				if(timer == 0) {
-					double[] point = {segmentPtr.getX0(), segmentPtr.getY0()};
-					segmentPtr.points.add(point);
-				}
-				else {
-					segmentPtr.generatePoint(timer);
-				}
+			//add first point
+			double[] point = {segmentPtr.getX0(), segmentPtr.getY0()};
+			segmentPtr.points.add(point);
+			
+			//generate points above water level
+			while(segmentPtr.points.get(pointID)[1] >= 0) {
+				segmentPtr.generatePoint(timer);
 				timer += 0.01;
+				pointID++;
 			}
+			double timerTmp = timer;
+			
+			//remove last point below water level
+			segmentPtr.points.remove(pointID);
+			pointID--;
+			timer -= 0.01;
+			
+			//setting point closest to water level
+			double dtPower = 2;
+			double dt = Math.pow(0.1, dtPower);
+			double yy = segmentPtr.points.get(pointID)[1];
+			
+			while(yy > 0.0001) {
+				double yprev = yy;
+				yy = segmentPtr.y0 + segmentPtr.b*(1-Math.exp(-segmentPtr.c*timer)) - segmentPtr.d * timer;
+				if(yy < 0) {
+					yy = yprev;
+					dtPower++;
+					timer -= dt;
+					dt = Math.pow(0.1, dtPower);
+				}
+				timer += dt;
+			}
+			timer -= dt;
+			segmentPtr.generatePoint(timer);
+			segmentPtr.time = timer;
 			
 			//checking velocities
-			timer -= 0.01;
 			double beta = airResCoefficient/mass;
 			double vx0 = segmentPtr.getV0() * Math.cos(segmentPtr.getAngle());
 			double vy0 = segmentPtr.getV0() * Math.sin(segmentPtr.getAngle());
 			double vx = vx0 * Math.exp(-beta*timer);
 			double vy = (vy0 + gravAcceleration / beta) * Math.exp(-beta*timer) - gravAcceleration / beta;
 			
-			if(vy <= 0.01 * vx) {
-				double sqrt = Math.sqrt(2*mass*Math.sin(stoneAngle)/(waterDensity*stoneSize));
-				double vxSqr = vx*vx - 4*Math.PI*gravAcceleration*sqrt/coefficient;
-				if(vxSqr > 0) {
-					vx = Math.sqrt(vxSqr);
-					vy = -vy;
-					double v = Math.sqrt(vx*vx + vy*vy);
-					double angle = Math.asin(vy/v);
-					
-					//increment the number of skips
-					numberOfSkips++;
-					
-					//adding new segment to the track
-					double x = segmentPtr.points.get(segmentPtr.points.size()-1)[0];
-					double y = segmentPtr.points.get(segmentPtr.points.size()-1)[1];
-					segments.add(new TrackSegment(x,y,v,angle));
-					segmentPtr = segments.get(segments.size()-1);
+			if(stoneAngle != 0) {
+				if(Math.abs(vy) <= 0.2 * vx) {
+					System.out.println("Vx=" + vx + ", Vy=" + vy);
+					double sqrt = Math.sqrt(2*mass*Math.sin(stoneAngle)/(waterDensity*stoneSize));
+					double vxSqr = vx*vx - 4*Math.PI*gravAcceleration*sqrt/coefficient;
+					if(vxSqr > 0) {
+						vx = Math.sqrt(vxSqr);
+						vy = -vy;
+						double v = Math.sqrt(vx*vx + vy*vy);
+						double angle = Math.asin(vy/v);
+						
+						//increment the number of skips
+						numberOfSkips++;
+						
+						//adding new segment to the track
+						double x = segmentPtr.points.get(segmentPtr.points.size()-1)[0];
+						double y = segmentPtr.points.get(segmentPtr.points.size()-1)[1];
+						segments.add(new TrackSegment(x,y,v,angle));
+						segmentPtr = segments.get(segments.size()-1);
+					}
+					else {
+						inMotion = false;
+					}
 				}
 				else {
 					inMotion = false;
@@ -175,8 +231,10 @@ public class MotionTrack implements Runnable {
 			else {
 				inMotion = false;
 			}
+			
 			flightTime += timer;
-			timer = 0;
+			timer = timerTmp - timer;
+			pointID = 0;
 		}
 		distance = segmentPtr.points.get(segmentPtr.points.size()-1)[0];
 		
@@ -185,13 +243,13 @@ public class MotionTrack implements Runnable {
 		System.out.println("Distance: " + distance);
 	}
 	
+
 	//for animating a track
 	@Override
 	public void run() {
 		TrackSegment segmentPtr = segments.get(segmentID);
 		
 		boolean endOfTrack = false;
-		
 		while(!endOfTrack) {
 			if(pointID < segmentPtr.points.size() - 1) {
 				pointID++;
@@ -228,14 +286,50 @@ public class MotionTrack implements Runnable {
 		animationPanel.animation = false;
 		animationPanel.repaint();
 		
+		//rescale
+		while(animationPanel.scale < 300) {
+			animationPanel.scale += 5;
+			if(animationPanel.scale > 300)
+				animationPanel.scale = 300;
+			animationPanel.repaint();
+					
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		//enable data panel
-		dataPanel.velocityField.setEnabled(true);
-		dataPanel.throwAngleField.setEnabled(true);
-		dataPanel.stoneAngleField.setEnabled(true);
-		dataPanel.massField.setEnabled(true);
-		dataPanel.heightField.setEnabled(true);
-		dataPanel.coefficientField.setEnabled(true);
-		dataPanel.playButton.setEnabled(true);
+		DataPanel.velocityField.setEnabled(true);
+		DataPanel.throwAngleField.setEnabled(true);
+		DataPanel.stoneAngleField.setEnabled(true);
+		DataPanel.massField.setEnabled(true);
+		DataPanel.heightField.setEnabled(true);
+		DataPanel.coefficientField.setEnabled(true);
+		DataPanel.playButton.setEnabled(true);
+		
+		dataPanel.lastThrow = new double[]{(double)numberOfSkips, distance, flightTime, 
+				initVelocity, initThrowAngle, stoneAngle, mass, startingPoint[1], airResCoefficient};
+		
+		if(dataPanel.bestThrow == null) {
+			dataPanel.bestThrow = new double[9];
+			System.arraycopy(dataPanel.lastThrow, 0, dataPanel.bestThrow, 0, 9);
+			System.out.println("Zadeklarowano tablice");
+		}
+		else {
+			if(numberOfSkips >= dataPanel.bestThrow[0]) {
+				System.arraycopy(dataPanel.lastThrow, 0, dataPanel.bestThrow, 0, 9);
+				System.out.println("Ostatni rzut jest najlepszym rzutem");
+			}
+		}
+		
+		System.out.println("Best throw: " + dataPanel.bestThrow[0]);
+		
+		ScorePanel.history.add(0, dataPanel.lastThrow);
+		for(double[] i: ScorePanel.history) {
+			System.out.println("n = " + i[0] + ", s = " + i[1] + ", t = " + i[2]);
+		}
 	}
 	
 	//paint method
@@ -253,9 +347,9 @@ public class MotionTrack implements Runnable {
 		if(scalex < scale || scaley < scale)
 		{
 			if(scalex < Math.abs(scaley))
-				scale = scalex;
+				animationPanel.scale = scalex;
 			else
-				scale = Math.abs(scaley);
+				animationPanel.scale = Math.abs(scaley);
 		}
 		
 		//draw previous segments
