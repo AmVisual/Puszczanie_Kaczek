@@ -40,12 +40,12 @@ public class ScorePanel extends JPanel implements ActionListener{
 	ScoreLabel label6=new ScoreLabel("Liczba odbić:");
 	ScoreLabel label7=new ScoreLabel("Odległość:");
 	ScoreLabel label8=new ScoreLabel("Czas lotu:");
-	ScoreLabel labelN1=new ScoreLabel(" ");
-	ScoreLabel labelN2=new ScoreLabel(" ");
-	ScoreLabel labelS1=new ScoreLabel(" ");
-	ScoreLabel labelS2=new ScoreLabel(" ");
-	ScoreLabel labelT1=new ScoreLabel(" ");
-	ScoreLabel labelT2=new ScoreLabel(" ");
+	static ScoreLabel labelN1=new ScoreLabel(" ");
+	static ScoreLabel labelN2=new ScoreLabel(" ");
+	static ScoreLabel labelS1=new ScoreLabel(" ");
+	static ScoreLabel labelS2=new ScoreLabel(" ");
+	static ScoreLabel labelT1=new ScoreLabel(" ");
+	static ScoreLabel labelT2=new ScoreLabel(" ");
 
 	ImageIcon icon1=new ImageIcon(getClass().getResource("images/sound.png"));
 	ImageIcon icon2=new ImageIcon(getClass().getResource("images/soundoff.png"));
@@ -53,13 +53,15 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JButton button2=new JButton("Zapisz");
 	JButton button3=new JButton(icon1);
 	JButton button4=new JButton("PL/EN");
-	JButton button5=new JButton("HISTORIA");
+	JButton button5=new JButton("Historia");
 	JButton button6=new JButton("Zapisz");
+	JButton button7=new JButton("Zamknij");
 	JFileChooser chooser=new JFileChooser();
+	JEditorPane pane=new JEditorPane();
 	int soundButtonMode=1;
 	int languageMode=0;
-	JLabel labelxd=new JLabel("xd"+"\n"+"XD");
 	String dialogTitle="Historia";
+	
 	
 	//data panel reference
 	DataPanel dataPanel;
@@ -188,6 +190,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.gridy=0;
 		c.weightx=0.5;
 		c.weighty=0.5;
+		c.gridheight=2;
 		c.insets=new Insets(20,10,20,10);
 		//adding music button
 		button3.setBackground(Color.green);
@@ -195,6 +198,8 @@ public class ScorePanel extends JPanel implements ActionListener{
 		//adding language switch button
 		c.gridx=1;
 		c.gridy=0;
+		c.gridheight=1;
+		c.insets=new Insets(20,10,5,5);
 		button4.setBackground(Color.green);
 		button4.setForeground(Color.white);
 		button4.setFont(new Font("Calibri", Font.PLAIN, 20));
@@ -202,10 +207,21 @@ public class ScorePanel extends JPanel implements ActionListener{
 		//adding history button
 		c.gridx=2;
 		c.gridy=0;
+		c.insets=new Insets(20,5,5,10);
 		button5.setBackground(Color.green);
 		button5.setForeground(Color.white);
 		button5.setFont(new Font("Calibri", Font.PLAIN, 20));
 		panelRight.add(button5,c);
+		
+		//adding exit button
+		c.gridx=1;
+		c.gridy=1;
+		c.gridwidth=2;
+		c.insets=new Insets(5,10,20,10);
+		button7.setBackground(Color.green);
+		button7.setForeground(Color.white);
+		button7.setFont(new Font("Calibri", Font.PLAIN, 20));
+		panelRight.add(button7,c);
 		
 		//adding listeners
 		button1.addActionListener(this);
@@ -214,12 +230,14 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button4.addActionListener(this);
 		button5.addActionListener(this);
 		button6.addActionListener(this);
+		button7.addActionListener(this);
 		button1.setActionCommand("1");
 		button2.setActionCommand("2");
 		button3.setActionCommand("3");
 		button4.setActionCommand("4");
 		button5.setActionCommand("5");
 		button6.setActionCommand("6");
+		button7.setActionCommand("7");
 	}
 
 	
@@ -232,16 +250,16 @@ public class ScorePanel extends JPanel implements ActionListener{
 					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
 					out.write(Main.stats.getString("Najlepszy rzut")+"\n");
 					out.write(Main.stats.getString("Stats")+"\n");
-					out.write(Main.stats.getString("Liczba odbić:")+" "+labelN1.getText()+"\n");
-					out.write(Main.stats.getString("Odległość:")+" "+labelS1.getText()+"\n");
-					out.write(Main.stats.getString("Czas lotu:")+" "+labelT1.getText()+"\n");
+					out.write(Main.stats.getString("Liczba odbić:")+" "+dataPanel.bestThrow[0]+"\n");
+					out.write(Main.stats.getString("Odległość:")+" "+dataPanel.bestThrow[1]+"\n");
+					out.write(Main.stats.getString("Czas lotu:")+" "+dataPanel.bestThrow[2]+"\n");
 					out.write(Main.stats.getString("Par")+"\n");
-					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+"\n");
-					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+"\n");
-					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+"\n");
-					out.write(Main.stats.getString("Masa kamienia [g]")+": "+"\n");
-					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+"\n");
-					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+"\n");
+					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+dataPanel.bestThrow[3]+"\n");
+					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+dataPanel.bestThrow[4]+"\n");
+					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+dataPanel.bestThrow[5]+"\n");
+					out.write(Main.stats.getString("Masa kamienia [g]")+": "+dataPanel.bestThrow[6]+"\n");
+					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+dataPanel.bestThrow[7]+"\n");
+					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+dataPanel.bestThrow[8]+"\n");
 					out.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -259,16 +277,16 @@ public class ScorePanel extends JPanel implements ActionListener{
 					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
 					out.write(Main.stats.getString("Ostatni rzut")+"\n");
 					out.write(Main.stats.getString("Stats")+"\n");
-					out.write(Main.stats.getString("Liczba odbić:")+" "+labelN2.getText()+"\n");
-					out.write(Main.stats.getString("Odległość:")+" "+labelS2.getText()+"\n");
-					out.write(Main.stats.getString("Czas lotu:")+" "+labelT2.getText()+"\n");
+					out.write(Main.stats.getString("Liczba odbić:")+" "+dataPanel.lastThrow[0]+"\n");
+					out.write(Main.stats.getString("Odległość:")+" "+dataPanel.lastThrow[1]+"\n");
+					out.write(Main.stats.getString("Czas lotu:")+" "+dataPanel.lastThrow[2]+"\n");
 					out.write(Main.stats.getString("Par")+"\n");
-					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+"\n");
-					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+"\n");
-					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+"\n");
-					out.write(Main.stats.getString("Masa kamienia [g]")+": "+"\n");
-					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+"\n");
-					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+"\n");
+					out.write(Main.stats.getString("Prędkość rzutu [m/s]")+": "+dataPanel.lastThrow[3]+"\n");
+					out.write(Main.stats.getString("Kąt rzutu (do osi OX) [o]")+": "+dataPanel.lastThrow[4]+"\n");
+					out.write(Main.stats.getString("Kąt kamienia (do osi OX) [o]")+": "+dataPanel.lastThrow[5]+"\n");
+					out.write(Main.stats.getString("Masa kamienia [g]")+": "+dataPanel.lastThrow[6]+"\n");
+					out.write(Main.stats.getString("Wysokość rzutu [m]")+": "+dataPanel.lastThrow[7]+"\n");
+					out.write(Main.stats.getString("Współczynnik oporu powietrza [kg/s]")+": "+dataPanel.lastThrow[8]+"\n");
 					out.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -314,6 +332,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 			button2.setText(Main.stats.getString("Zapisz"));
 			button6.setText(Main.stats.getString("Zapisz"));
 			button5.setText(Main.stats.getString("Historia"));
+			button7.setText(Main.stats.getString("Zamknij"));
 			DataPanel.velocityLabel.setText(Main.stats.getString("Prędkość rzutu [m/s]"));
 			DataPanel.throwAngleLabel.setText(Main.stats.getString("Kąt rzutu (do osi OX) [o]"));
 			DataPanel.stoneAngleLabel.setText(Main.stats.getString("Kąt kamienia (do osi OX) [o]"));
@@ -329,13 +348,15 @@ public class ScorePanel extends JPanel implements ActionListener{
 			dialog.setTitle(dialogTitle);
 			dialog.setLayout(new BorderLayout());
 			
-			//StringBuilder sb=new StringBuilder();
+			StringBuilder sb=new StringBuilder();
 			
-			JEditorPane pane=new JEditorPane();
 			pane.setEditable(false);
 			pane.setBackground(Color.black);
 			pane.setForeground(Color.white);
-			pane.setText("xd");
+			for(int i=0;i<history.size();i++)
+				sb.append(i+1+". "+"n= "+history.get(i)[0]+"   s= "+history.get(i)[1]+"   t= "+history.get(i)[2]+"\n");
+			pane.setText(sb.toString());
+			
 			
 			dialog.add(pane,BorderLayout.CENTER);
 			
@@ -354,7 +375,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 				File fileOut=chooser.getSelectedFile();
 				try {
 					BufferedWriter out = new BufferedWriter(new FileWriter (fileOut));
-					out.write("xd");
+					out.write(pane.getText());
 					out.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -362,5 +383,8 @@ public class ScorePanel extends JPanel implements ActionListener{
 			}
 		}
 		
+		if(e.getActionCommand().equals("7")) {
+			System.exit(0);
+		}
 	}
 }
