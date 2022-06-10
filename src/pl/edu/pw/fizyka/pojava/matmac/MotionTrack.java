@@ -284,10 +284,10 @@ public class MotionTrack implements Runnable {
 		animationPanel.repaint();
 		
 		//rescale
-		while(animationPanel.scale < 300) {
+		while(animationPanel.scale < animationPanel.initialScale) {
 			animationPanel.scale += 5;
-			if(animationPanel.scale > 300)
-				animationPanel.scale = 300;
+			if(animationPanel.scale > animationPanel.initialScale)
+				animationPanel.scale = animationPanel.initialScale;
 			animationPanel.repaint();
 					
 			try {

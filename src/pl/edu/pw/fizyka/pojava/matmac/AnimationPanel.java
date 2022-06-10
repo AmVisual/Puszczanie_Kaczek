@@ -25,7 +25,8 @@ public class AnimationPanel extends JPanel {
 	double bankPosition = 0.1; //position of river bank is BankPosition*animationPanelWidth
 	int[] coordinateOrigin; //position of coordinate system origin
 	int[] startingPoint; //position of the stone
-	int scale = 300; //number of pixels per 1 meter
+	int scale = 300; //scale for animation number of pixels per 1 meter
+	int initialScale = scale; //scale for initial state
 	
 	//animation
 	boolean animation = false; //is the panel in initial state or in animation state
@@ -60,6 +61,9 @@ public class AnimationPanel extends JPanel {
 			track.paint(g, scale, waterLevel, bankPosition, width, height, stone);
 		}
 		else {
+			//setting scale
+			initialScale = (int) ((coordinateOrigin[1] - 150) / 1.5); //max throw height (1.5m) has to fit in Animation
+			scale = initialScale;
 			//stone
 			this.startingPoint[0] = bankPosition;
 			this.startingPoint[1] = waterLevel - (int)(this.getStone().getHeight()*scale);
