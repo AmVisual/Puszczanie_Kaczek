@@ -258,13 +258,17 @@ public class MotionTrack implements Runnable {
 					segmentPtr = segments.get(segmentID);
 					pointID = 1;
 					//water splash
-					Thread thread = new Thread(new SplashAudioRunnable(true));
-					thread.start();
+					if(ScorePanel.soundButtonMode == 1) {
+						Thread thread = new Thread(new SplashAudioRunnable(true));
+						thread.start();
+					}
 				}
 				else {
 					endOfTrack = true;
-					Thread thread = new Thread(new SplashAudioRunnable(false));
-					thread.start();
+					if(ScorePanel.soundButtonMode == 1) {
+						Thread thread = new Thread(new SplashAudioRunnable(false));
+						thread.start();
+					}
 				}
 			}
 			animationPanel.repaint();
