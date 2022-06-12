@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -336,7 +339,16 @@ public class MotionTrack implements Runnable {
 		ScorePanel.labelS2.setText(new DecimalFormat("#.0#").format(dataPanel.lastThrow[1]));
 		ScorePanel.labelT2.setText(new DecimalFormat("#.0#").format(dataPanel.lastThrow[2]));
 		
-		
+			
+		BufferedWriter out;
+		try {
+			out = new BufferedWriter(new FileWriter ("readbest.txt"));
+			for(int i=0;i<9;i++)
+				out.write(dataPanel.bestThrow[i]+" ");
+			out.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	//paint method

@@ -9,10 +9,14 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -87,10 +91,10 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.fill=GridBagConstraints.BOTH;
 		c.gridx=0;
 		c.gridy=0;
-		c.weightx=0.5;
-		c.weighty=0.5;
+		c.weightx=1;
+		c.weighty=1;
 		c.insets=new Insets(5,5,5,5);
-		label1.setHorizontalAlignment(JLabel.CENTER);
+		//label1.setHorizontalAlignment(JLabel.CENTER);
 		panelLeft.add(label1,c);
 		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
@@ -238,6 +242,32 @@ public class ScorePanel extends JPanel implements ActionListener{
 		button5.setActionCommand("5");
 		button6.setActionCommand("6");
 		button7.setActionCommand("7");
+		
+		//reading best throw from file
+		BufferedReader in;
+
+
+		String[] words;
+		try {
+			in=new BufferedReader(new FileReader("readbest.txt"));
+			String line;
+			while((line=in.readLine())!=null){
+				if(!line.isEmpty()){
+					words=line.split("\\s+");
+					dataPanel.bestThrow = new double[9];
+					for(int i=0;i<3;i++)
+						dataPanel.bestThrow[i]=Double.parseDouble(words[i]);
+					}
+				}
+			labelN1.setText(new DecimalFormat("#").format(dataPanel.bestThrow[0]));
+			labelS1.setText(new DecimalFormat("#.0#").format(dataPanel.bestThrow[1]));
+			labelT1.setText(new DecimalFormat("#.0#").format(dataPanel.bestThrow[2]));
+		} catch (FileNotFoundException e1) {
+			//e1.printStackTrace();
+			System.out.println("Brak pliku");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	
@@ -353,10 +383,21 @@ public class ScorePanel extends JPanel implements ActionListener{
 			pane.setEditable(false);
 			pane.setBackground(Color.black);
 			pane.setForeground(Color.white);
-			for(int i=0;i<history.size();i++)
-				sb.append(i+1+". "+"n= "+history.get(i)[0]+"   s= "+history.get(i)[1]+"   t= "+history.get(i)[2]+"\n");
+			pane.setFont(new Font("Calibri", Font.PLAIN,18));
+			for(int i=0;i<history.size();i++) {
+				sb.append(i+1+". "+"n= "+new DecimalFormat("#").format(history.get(i)[0])+"   s= "+
+						new DecimalFormat("#.0#").format(history.get(i)[1])+"   t= "+new DecimalFormat("#.0#").format(history.get(i)[2])+"\n");
+			}
 			pane.setText(sb.toString());
 			
+			BufferedWriter out;
+			try {
+				out = new BufferedWriter(new FileWriter ("history.txt"));
+				out.write(sb.toString());
+				out.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			
 			dialog.add(pane,BorderLayout.CENTER);
 			
