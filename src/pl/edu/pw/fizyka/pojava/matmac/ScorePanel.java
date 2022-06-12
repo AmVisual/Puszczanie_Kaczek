@@ -62,7 +62,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 	JButton button7=new JButton("Zamknij");
 	JFileChooser chooser=new JFileChooser();
 	JEditorPane pane=new JEditorPane();
-	int soundButtonMode=1;
+	static int soundButtonMode=1;
 	int languageMode=0;
 	String dialogTitle="Historia";
 	

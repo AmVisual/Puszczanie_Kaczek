@@ -3,6 +3,8 @@ package pl.edu.pw.fizyka.pojava.matmac;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.SwingUtilities;
 
@@ -19,6 +21,11 @@ public class Main {
 			public void run() {
 				frame = new WindowFrame("Puszczanie kaczek");
 				frame.setVisible(true);
+				
+				AmbienceRunnable ambience = new AmbienceRunnable();
+				ExecutorService exec = Executors.newFixedThreadPool(1);
+				exec.execute(ambience);
+				exec.shutdown();
 			}
 		});
 	}

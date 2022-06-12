@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 public class Arrow {
 	public static void paint(Graphics g, double x0, double y0, double angle, double velocity, int scale) {
 		Graphics2D g2d = (Graphics2D) g;
-		int scale1 = scale/60; //max scale: 300, so 5 pixels represent 1m/s 
+		double scale1 = (double)scale / 75;
 		int x1,y1; // end of the arrow
 		double angleRadians = Math.toRadians(angle);
 		x1 = (int)(x0 + scale1*velocity*Math.cos(-angleRadians));

@@ -260,9 +260,18 @@ public class MotionTrack implements Runnable {
 					segmentID++;
 					segmentPtr = segments.get(segmentID);
 					pointID = 1;
+					//water splash
+					if(ScorePanel.soundButtonMode == 1) {
+						Thread thread = new Thread(new SplashAudioRunnable(true));
+						thread.start();
+					}
 				}
 				else {
 					endOfTrack = true;
+					if(ScorePanel.soundButtonMode == 1) {
+						Thread thread = new Thread(new SplashAudioRunnable(false));
+						thread.start();
+					}
 				}
 			}
 			animationPanel.repaint();
@@ -287,10 +296,10 @@ public class MotionTrack implements Runnable {
 		animationPanel.repaint();
 		
 		//rescale
-		while(animationPanel.scale < 300) {
+		while(animationPanel.scale < animationPanel.initialScale) {
 			animationPanel.scale += 5;
-			if(animationPanel.scale > 300)
-				animationPanel.scale = 300;
+			if(animationPanel.scale > animationPanel.initialScale)
+				animationPanel.scale = animationPanel.initialScale;
 			animationPanel.repaint();
 					
 			try {
