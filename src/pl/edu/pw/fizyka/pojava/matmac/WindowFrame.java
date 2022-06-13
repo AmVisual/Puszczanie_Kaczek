@@ -92,8 +92,9 @@ public class WindowFrame extends JFrame {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			int x = 1550;
-			int y = 838;
+			//resizing fonts
+			int x = 1550; //relative width
+			int y = 838; //relative height
 			float[] defaultDataPanel = {24,28}; //font size for DataPanel
 			//{insert fieds and labels, play button}
 			float[] defaultScorePanel = {24,20,18}; //font sizes for ScorePanel
