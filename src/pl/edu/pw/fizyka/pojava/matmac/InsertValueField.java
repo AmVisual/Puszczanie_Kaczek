@@ -43,7 +43,7 @@ public class InsertValueField extends JTextField implements ActionListener {
 		this.setText(Double.toString((minValue + maxValue) / 2));
 		this.setFont(new Font("Calibri", Font.PLAIN, 24));
 		this.setHorizontalAlignment(JTextField.CENTER);
-		this.setToolTipText("Dopuszczalny zakres: [" + minValue + "," + maxValue + "]");
+		this.setToolTipText(Main.stats.getString("dz") + minValue + "," + maxValue + "]");
 		this.lastValue = Double.parseDouble(this.getText());
 		
 		this.addActionListener(this);

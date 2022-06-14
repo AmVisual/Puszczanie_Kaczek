@@ -370,6 +370,13 @@ public class ScorePanel extends JPanel implements ActionListener{
 			DataPanel.heightLabel.setText(Main.stats.getString("Wysokość rzutu [m]"));
 			DataPanel.coefficientLabel.setText(Main.stats.getString("Współczynnik oporu powietrza [kg/s]"));
 			DataPanel.playButton.setText(Main.stats.getString("RZUĆ!"));
+			
+			DataPanel.velocityField.setToolTipText(Main.stats.getString("dz") + DataPanel.velocityField.minValue + "," + DataPanel.velocityField.maxValue + "]");
+			DataPanel.throwAngleField.setToolTipText(Main.stats.getString("dz") + DataPanel.throwAngleField.minValue + "," + DataPanel.throwAngleField.maxValue + "]");
+			DataPanel.stoneAngleField.setToolTipText(Main.stats.getString("dz") + DataPanel.stoneAngleField.minValue + "," + DataPanel.stoneAngleField.maxValue + "]");
+			DataPanel.massField.setToolTipText(Main.stats.getString("dz") + DataPanel.massField.minValue + "," + DataPanel.massField.maxValue + "]");
+			DataPanel.heightField.setToolTipText(Main.stats.getString("dz") + DataPanel.heightField.minValue + "," + DataPanel.heightField.maxValue + "]");
+			DataPanel.coefficientField.setToolTipText(Main.stats.getString("dz") + DataPanel.coefficientField.minValue + "," + DataPanel.coefficientField.maxValue + "]");
 		}
 		
 		if(e.getActionCommand().equals("5")) {

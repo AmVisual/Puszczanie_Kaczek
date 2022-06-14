@@ -24,6 +24,7 @@ public class StatsBundle_pl_PL extends ListResourceBundle {
 		{"Stats","Statystyki"},
 		{"Par","Parametry"},
 		{"Zamknij","Zamknij"},
+		{"dz","Dopuszczalny zakres: ["},
 	};
 
 	

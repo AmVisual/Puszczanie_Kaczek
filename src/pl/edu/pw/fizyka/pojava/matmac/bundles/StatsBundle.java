@@ -23,6 +23,7 @@ public class StatsBundle extends ListResourceBundle {
 			{"Stats","Statystyki"},
 			{"Par","Parametry"},
 			{"Zamknij","Zamknij"},
+			{"dz","Dopuszczalny zakres: ["},
 		};
 
 		
