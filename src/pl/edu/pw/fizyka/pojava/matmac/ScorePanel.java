@@ -94,7 +94,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 		c.weightx=1;
 		c.weighty=1;
 		c.insets=new Insets(5,5,5,5);
-		//label1.setHorizontalAlignment(JLabel.CENTER);
+		label1.setHorizontalAlignment(JLabel.CENTER);
 		panelLeft.add(label1,c);
 		//adding "Liczba odbiï¿½: n" label
 		c.gridx=1;
