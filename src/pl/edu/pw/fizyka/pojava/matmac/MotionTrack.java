@@ -200,7 +200,7 @@ public class MotionTrack implements Runnable {
 			double vx = vx0 * Math.exp(-beta*timer);
 			double vy = (vy0 + gravAcceleration / beta) * Math.exp(-beta*timer) - gravAcceleration / beta;
 			
-			if(stoneAngle != 0) {
+			if(stoneAngle != 0 && stoneAngle <= Math.toRadians(60)) {
 				if(Math.abs(vy) <= 0.2 * vx) {
 					System.out.println("Vx=" + vx + ", Vy=" + vy);
 					double sqrt = Math.sqrt(2*mass*Math.sin(stoneAngle)/(waterDensity*stoneSize));
