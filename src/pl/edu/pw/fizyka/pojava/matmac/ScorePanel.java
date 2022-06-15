@@ -28,6 +28,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 //top panel shows the best shot and the latest shot, as well as saves them in the chosen file
 public class ScorePanel extends JPanel implements ActionListener{
@@ -406,8 +407,8 @@ public class ScorePanel extends JPanel implements ActionListener{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			
-			dialog.add(pane,BorderLayout.CENTER);
+			JScrollPane scrollPane=new JScrollPane(pane);
+			dialog.add(scrollPane,BorderLayout.CENTER);
 			
 			button6.setBackground(Color.green);
 			button6.setForeground(Color.white);
