@@ -391,9 +391,10 @@ public class ScorePanel extends JPanel implements ActionListener{
 			pane.setBackground(Color.black);
 			pane.setForeground(Color.white);
 			pane.setFont(new Font("Calibri", Font.PLAIN,18));
+			sb.append("#\tn\ts\tt\n");
 			for(int i=0;i<history.size();i++) {
-				sb.append(i+1+". "+"n= "+new DecimalFormat("#").format(history.get(i)[0])+"   s= "+
-						new DecimalFormat("#.0#").format(history.get(i)[1])+"   t= "+new DecimalFormat("#.0#").format(history.get(i)[2])+"\n");
+				sb.append(i+1+"\t"+new DecimalFormat("#").format(history.get(i)[0])+"\t"+
+						new DecimalFormat("#.0#").format(history.get(i)[1])+"\t"+new DecimalFormat("#.0#").format(history.get(i)[2])+"\n");
 			}
 			pane.setText(sb.toString());
 			
