@@ -408,6 +408,7 @@ public class ScorePanel extends JPanel implements ActionListener{
 				e1.printStackTrace();
 			}
 			JScrollPane scrollPane=new JScrollPane(pane);
+			scrollPane.setHorizontalScrollBar(null);
 			dialog.add(scrollPane,BorderLayout.CENTER);
 			
 			button6.setBackground(Color.green);
